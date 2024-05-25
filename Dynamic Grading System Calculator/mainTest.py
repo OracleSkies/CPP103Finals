@@ -1,2 +1,1 @@
-deym = "deym"
-print(deym)
+sheesh = "shesh"
