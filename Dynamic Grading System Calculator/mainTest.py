@@ -1,0 +1,2 @@
+deym = "deym"
+print(deym)
