@@ -1,2 +1,1 @@
-sheesh = "sheesh"
-print(sheesh)
+sheesh = "shesh"
