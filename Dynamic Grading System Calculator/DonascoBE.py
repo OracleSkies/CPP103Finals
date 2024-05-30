@@ -1,4 +1,3 @@
-import tkinter as tk
 import mysql.connector
 
 class Database_Interaction:
