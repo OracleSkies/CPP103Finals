@@ -2,6 +2,12 @@ import tkinter as tk
 from tkinter import messagebox
 import sqlite3
 
+
+"""
+========================================================================
+THIS CODE IS FOR REFRERENCE ONLY. NEVER PUBLISH THIS IN THE MAIN BRANCH
+=======================================================================
+"""
 class GradingSystemApp:
     def __init__(self, root):
         self.root = root
