@@ -60,6 +60,7 @@ class GradingSystemApp:
 
         tk.Button(self.dashboard_frame, text="Create Grading System", command=self.create_subject_frame).grid(row=0, column=0)
         tk.Button(self.dashboard_frame, text="Search Subject", command=self.create_search_subject_frame).grid(row=1, column=0)
+        tk.Button(self.dashboard_frame, text="Logout", command=self.logout).grid(row=2, column=0)
 
     def create_subject_frame(self):
         self.clear_frame()
@@ -131,6 +132,7 @@ class GradingSystemApp:
         tk.Entry(self.search_frame, textvariable=self.search_subject_name).grid(row=0, column=1)
         tk.Button(self.search_frame, text="Search", command=self.search_subject).grid(row=1, column=0, columnspan=2)
         tk.Button(self.search_frame, text="Back", command=self.create_dashboard).grid(row=2, column=0, columnspan=2)
+        tk.Button(self.search_frame, text="Logout", command=self.logout).grid(row=3, column=0, columnspan=2)
 
     def create_subject_details_frame(self, subject_name):
         self.clear_frame()
@@ -144,6 +146,7 @@ class GradingSystemApp:
         tk.Button(self.subject_details_frame, text="Add Students", command=lambda: self.add_student(subject_name)).grid(row=3, column=0)
         tk.Button(self.subject_details_frame, text="Edit Criteria", command=lambda: self.edit_criteria(subject_name)).grid(row=4, column=0)
         tk.Button(self.subject_details_frame, text="Back", command=self.create_search_subject_frame).grid(row=5, column=0)
+        tk.Button(self.subject_details_frame, text="Logout", command=self.logout).grid(row=6, column=0)
 
     def show_criteria(self, subject_name):
         self.clear_frame()
@@ -156,16 +159,17 @@ class GradingSystemApp:
         tk.Label(self.criteria_frame, text="Criteria:").grid(row=0, column=0)
         tk.Label(self.criteria_frame, text=criteria_text).grid(row=1, column=0)
         tk.Button(self.criteria_frame, text="Back", command=lambda: self.create_subject_details_frame(subject_name)).grid(row=2, column=0)
+        tk.Button(self.criteria_frame, text="Logout", command=self.logout).grid(row=3, column=0)
 
     def show_student_records(self, subject_name):
         self.clear_frame()
+
         self.records_frame = tk.Frame(self.root)
         self.records_frame.pack()
 
-        self.cursor.execute("SELECT * FROM students WHERE subject=?", (subject_name,))
-        student_records = self.cursor.fetchall()
-
+        student_records = self.students.get(subject_name, [])
         headers = ["Name", "Student Number", "Homework", "Seatwork", "Quizzes", "Exams"]
+
         for idx, header in enumerate(headers):
             tk.Label(self.records_frame, text=header, anchor='w').grid(row=0, column=idx, padx=5, pady=5, sticky='w')
 
@@ -191,6 +195,7 @@ class GradingSystemApp:
                 tk.Label(self.records_frame, text=data, anchor='w').grid(row=i + 1, column=idx, padx=5, pady=5, sticky='w')
 
         tk.Button(self.records_frame, text="Back", command=lambda: self.create_subject_details_frame(subject_name)).grid(row=len(student_records) + 1, column=0, columnspan=len(headers), pady=10)
+        tk.Button(self.records_frame, text="Logout", command=self.logout).grid(row=len(student_records) + 2, column=0, columnspan=len(headers), pady=10)
 
     def add_student(self, subject_name):
         self.clear_frame()
@@ -212,6 +217,7 @@ class GradingSystemApp:
         tk.Entry(self.add_student_frame, textvariable=self.section).grid(row=3, column=1)
         tk.Button(self.add_student_frame, text="Add", command=lambda: self.save_student(subject_name)).grid(row=4, column=0, columnspan=2)
         tk.Button(self.add_student_frame, text="Back", command=lambda: self.create_subject_details_frame(subject_name)).grid(row=5, column=0, columnspan=2)
+        tk.Button(self.add_student_frame, text="Logout", command=self.logout).grid(row=6, column=0, columnspan=2)
 
     def edit_criteria(self, subject_name):
         self.clear_frame()
@@ -243,6 +249,8 @@ class GradingSystemApp:
         self.save_button.grid(row=len(criteria) + 2, column=0, columnspan=2)
         self.back_button = tk.Button(self.edit_criteria_frame, text="Back", command=lambda: self.create_subject_details_frame(subject_name))
         self.back_button.grid(row=len(criteria) + 3, column=0, columnspan=2)
+        self.logout_button = tk.Button(self.edit_criteria_frame, text="Logout", command=self.logout)
+        self.logout_button.grid(row=len(criteria) + 4, column=0, columnspan=2)
 
     def save_subject(self):
         subject_name = self.subject_name.get()
@@ -266,11 +274,11 @@ class GradingSystemApp:
         lastname = self.lastname.get()
         section = self.section.get()
 
-        self.students.setdefault(subject_name, []).append((subject_name, section, student_number, name, lastname))
+        self.students.setdefault(subject_name, []).append((student_number, name, lastname, section, subject_name, 0, 0, 0, 0))
 
         # Save the student to the database
-        self.cursor.execute("INSERT OR REPLACE INTO students (student_number, name, lastname, section, subject) VALUES (?, ?, ?, ?, ?)",
-                            (student_number, name, lastname, section, subject_name))
+        self.cursor.execute("INSERT OR REPLACE INTO students (student_number, name, lastname, section, subject, homework, seatwork, quizzes, exams) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                            (student_number, name, lastname, section, subject_name, 0, 0, 0, 0))
         self.conn.commit()
 
         messagebox.showinfo("Success", "Student added successfully!")
@@ -312,12 +320,17 @@ class GradingSystemApp:
         password = self.password.get()
 
         try:
-            self.cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+            self.cursor.execute("INSERT INTO users (username, password) VALUES (?, ?, ?)", (username, password))
             self.conn.commit()
             messagebox.showinfo("Success", "User registered successfully!")
             self.create_login_frame()
         except sqlite3.IntegrityError:
             messagebox.showerror("Error", "Username already exists.")
+
+    def logout(self):
+        self.username.set("")
+        self.password.set("")
+        self.create_login_frame()
 
     def clear_frame(self):
         for widget in self.root.winfo_children():
