@@ -29,6 +29,11 @@ class GradingSystemApp:
     def create_login_frame(self):
         self.clear_frame()
 
+        """
+        ===================================================
+        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
+        ===================================================
+        """
         self.login_frame = tk.Frame(self.root)
         self.login_frame.pack()
 
@@ -41,7 +46,12 @@ class GradingSystemApp:
 
     def create_register_frame(self):
         self.clear_frame()
-
+        """
+        ===================================================
+        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
+        ===================================================
+        """
+        
         self.register_frame = tk.Frame(self.root)
         self.register_frame.pack()
 
@@ -54,7 +64,11 @@ class GradingSystemApp:
 
     def create_dashboard(self):
         self.clear_frame()
-
+        """
+        ===================================================
+        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
+        ===================================================
+        """
         self.dashboard_frame = tk.Frame(self.root)
         self.dashboard_frame.pack()
 
@@ -64,7 +78,11 @@ class GradingSystemApp:
 
     def create_subject_frame(self):
         self.clear_frame()
-
+        """
+        ===================================================
+        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
+        ===================================================
+        """
         self.subject_frame = tk.Frame(self.root)
         self.subject_frame.pack()
 
@@ -92,6 +110,12 @@ class GradingSystemApp:
         criteria_name = tk.StringVar()
         percentage = tk.IntVar()
         self.criteria_entries.append((criteria_name, percentage))
+
+        """
+        ===================================================
+        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
+        ===================================================
+        """
 
         tk.Label(frame, text=f"Criteria {row + 1}:").grid(row=row, column=0)
         tk.Entry(frame, textvariable=criteria_name).grid(row=row, column=1)
@@ -122,6 +146,13 @@ class GradingSystemApp:
             tk.Button(frame, text="Remove", command=lambda idx=idx: self.remove_criteria_entry(idx, frame), state=remove_button_state).grid(row=idx, column=4)
 
     def create_search_subject_frame(self):
+
+        """
+        ===================================================
+        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
+        ===================================================
+        """
+        
         self.clear_frame()
 
         self.search_frame = tk.Frame(self.root)
@@ -135,8 +166,15 @@ class GradingSystemApp:
         tk.Button(self.search_frame, text="Logout", command=self.logout).grid(row=3, column=0, columnspan=2)
 
     def create_subject_details_frame(self, subject_name):
-        self.clear_frame()
 
+        """
+        ===================================================
+        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
+        ===================================================
+        """
+
+        self.clear_frame()
+        
         self.subject_details_frame = tk.Frame(self.root)
         self.subject_details_frame.pack()
 
