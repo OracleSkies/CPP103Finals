@@ -16,22 +16,23 @@ bg_label = tk.Label(root, image=bg)
 bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # log in text
-log_in_text = tk.Label(root, text="Log In", font=("Times",70,"bold"), fg="white", bg="#000029").pack(pady=50)
+log_in_text = tk.Label(root, text="Log In", font=("Times",70,"bold"), fg="white", bg="#000029").pack(pady=80)
 
 ###################################################
+
 
 User_Entry = tk.StringVar()
 Password_Entry = tk.StringVar()
 
-
 username_label = tk.Label(root, text="Username", font=("Roboto", 20), fg="white", bg="#000150").pack(pady=20)
-username_entry = tk.Entry(root, text= User_Entry, font=("Arial", 14), width=50, borderwidth=5).pack()
+username_entry = tk.Entry(root, text= User_Entry, font=("Arial", 14), width=30, borderwidth=5).pack(pady=10)
 
 
-password_label = tk.Label(root, text="Password", font=("Roboto", 20), fg="white", bg="#01005E").pack(pady=20)
-password_entry = tk.Entry(root, text= Password_Entry, font=("Arial", 14), width=50, borderwidth=5).pack()
+password_label = tk.Label(root, text="Password", font=("Roboto", 20), fg="white", bg="#00006E").pack(pady=20)
+password_entry = tk.Entry(root, text= Password_Entry, font=("Arial", 14), width=30, borderwidth=5).pack(pady=10)
 
-
+login_button = tk.Button(root, text="Log In", font=("Roboto", 16), borderwidth=3)
+login_button.pack(pady=40)
 
 
 '''
