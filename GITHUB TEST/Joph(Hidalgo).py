@@ -13,7 +13,7 @@ def open_in_window():
     openIN.geometry("1000x800")
     openIN.configure(bg='dark slate blue')
    
-
+    
     
     
     openIN_username = tk.Label(openIN, text = "Username", font = ('Times New Roman', 15), height= 2,width=7 ,bg = "aquamarine2")
@@ -31,7 +31,27 @@ def open_in_window():
     sign_in_button = tk.Button(openIN, text = "Sign IN", font = ("Helvictica", 16), height = 2, width = 7, bg = "green")
     sign_in_button.pack(pady=50)
 
+    sign_up_button = tk.Button(openIN, text = "Sign UP", font = ("Helvictica", 16), height = 2, width = 7, bg = "green", command = sign_up_window)
+    sign_up_button.pack(pady= 50)
     
+
+    #--------------------------------------------------------------------------------------------------------
+def sign_up_window():
+    sign_up = tk.Toplevel(root)
+    sign_up.title("Sign UP")
+    sign_up.geometry("1000x800")
+    sign_up.configure(bg='dark slate blue')
+
+
+
+    sign_up_username = tk.Label(sign_up, text = "Sign IN", font = ("Helvictica", 16), height = 2, width = 7, bg = "green")
+    sign_up_username.pack(pady = 5)
+
+
+
+
+
+
 
 def open_inventory_window():
     open_inventory = tk.Toplevel(root)
