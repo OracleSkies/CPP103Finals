@@ -2,15 +2,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-def login():
-    username = openIN_username.get()
-    password = openIN_password.get()
 
-
-    if username == "admin" and password == "password":
-        messagebox.showinfo("Login Succesfull, Welcome, " + username + "!")
-    else:
-        messagebox.showinfo("Error Login, Invalid Username or password")
     
 def open_in_window():
     
@@ -36,7 +28,7 @@ def open_in_window():
     openIN_password_entry = tk.Entry(openIN, show = '*')
     openIN_password_entry.pack(pady =5)
     
-    sign_in_button = tk.Button(openIN, text = "Sign IN", font = ("Helvictica", 16), height = 2, width = 7, bg = "green",command = login)
+    sign_in_button = tk.Button(openIN, text = "Sign IN", font = ("Helvictica", 16), height = 2, width = 7, bg = "green")
     sign_in_button.pack(pady=50)
 
     
