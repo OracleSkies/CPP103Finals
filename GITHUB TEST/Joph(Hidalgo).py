@@ -1,7 +1,7 @@
 #joph
 import tkinter as tk
 from tkinter import messagebox
-
+from tkinter import PhotoImage
 
     
 def open_in_window():
@@ -12,7 +12,7 @@ def open_in_window():
     openIN.title("IN WINDOW")
     openIN.geometry("1000x800")
     openIN.configure(bg='dark slate blue')
-   
+    
     
     
     
@@ -73,7 +73,7 @@ def open_out_window():
 root= tk.Tk()
 root.title("MAIN WINDOW")
 root.geometry("1000x800")
-root.configure(bg='light blue')  
+root.configure(bg = "light blue")
 
 main_buttonIN = tk.Button(root, text = "IN", font = ('Times New Roman' , 20), height= 8, width= 20, command= open_in_window, bg= 'light blue')
 main_buttonIN.pack()
@@ -81,7 +81,6 @@ main_button_INVENTORY = tk.Button(root, text = "INVENTORY", font = ('Times New R
 main_button_INVENTORY.pack()
 main_buttonOUT = tk.Button(root, text = "OUT", font = ('Times New Roman' , 20), height= 8, width= 20, command= open_out_window, bg = 'light blue')
 main_buttonOUT.pack()
-
 
 
 
