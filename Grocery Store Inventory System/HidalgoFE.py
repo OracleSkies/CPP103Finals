@@ -8,7 +8,7 @@ def open_new_window():
     password = Password_Entry.get()
     
     if not username or not password:
-        error_label.config(text="Username and Password cannot be empty!", fg="red")
+        error_label.config(text="Username and Password must be filled! ano ba!", fg="red")
     else:
         open_window = tk.Toplevel(root)
         open_window.title("IN, OUT, INVENTORY")
