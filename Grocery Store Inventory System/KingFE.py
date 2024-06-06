@@ -6,7 +6,7 @@ import tkinter as tk
 # Create the main window
 root= tk.Tk()
 root.title("Grocery Store Inventory System")
-root.geometry("1000x800")
+root.geometry("1080x800")
 
 # backgorund image
 bg_image = ("C:\\Users\\User\\Documents\\GitHub\\CPP103Finals\\blue.png")
@@ -33,7 +33,12 @@ password_entry = tk.Entry(root, text= Password_Entry, font=("Arial", 14), width=
 
 # login button
 login_button = tk.Button(root, text="Log In", font=("Roboto", 16), borderwidth=3)
-login_button.pack(pady=40)
+login_button.pack(pady=20)
+
+# login button
+sign_in_button = tk.Button(root, text="Sign In", font=("Roboto", 16), borderwidth=3)
+sign_in_button.place()
+
 
 
 
