@@ -9,7 +9,7 @@ root.title("Grocery Store Inventory System")
 root.geometry("1080x800")
 
 # backgorund image
-bg_image = ("C:\\Users\\User\\Documents\\GitHub\\CPP103Finals\\blue.png")
+bg_image = ("blue.png")
 bg = PhotoImage(file=bg_image)
 # display backgroung image
 bg_label = tk.Label(root, image=bg)
@@ -33,72 +33,20 @@ password_entry = tk.Entry(root, text= Password_Entry, font=("Arial", 14), width=
 
 # login button
 login_button = tk.Button(root, text="Log In", font=("Roboto", 16), borderwidth=3)
+<<<<<<< HEAD
 login_button.pack(pady=20)
 
 # login button
 sign_in_button = tk.Button(root, text="Sign In", font=("Roboto", 16), borderwidth=3)
 sign_in_button.place()
 
+=======
+login_button.pack()
+>>>>>>> 7eded240b640538a0b724cae9cd6ff3eaa66e148
 
+# login button
+sign_in_button = tk.Button(root, text="Sign In", font=("Roboto", 16), borderwidth=3)
+sign_in_button.place()
 
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-class Inventory:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("A Dynamic Grading System Application")
-        self.username = tk.StringVar()
-        self.password = tk.StringVar()
-        self.create_login_frame()
-
-    def create_login_frame(self):
-        self.clear_frame()
-
-        """
-        ===================================================
-        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
-        ===================================================
-        """
-        self.login_frame = tk.Frame(self.root)
-        self.login_frame.pack()
-
-        tk.Label(self.login_frame, text="Username:").grid(row=0, column=0)
-        tk.Entry(self.login_frame, textvariable=self.username).grid(row=0, column=1)
-        tk.Label(self.login_frame, text="Password:").grid(row=1, column=0)
-        tk.Entry(self.login_frame, textvariable=self.password, show='*').grid(row=1, column=1)
-        tk.Button(self.login_frame, text="Login", command=self.login).grid(row=2, column=0, columnspan=2)
-        tk.Button(self.login_frame, text="Register", command=self.create_register_frame).grid(row=3, column=0, columnspan=2)
-
-    def create_register_frame(self):
-        self.clear_frame()
-        """
-        ===================================================
-        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
-        ===================================================
-        """
-        
-        self.register_frame = tk.Frame(self.root)
-        self.register_frame.pack()
-
-        tk.Label(self.register_frame, text="Username:").grid(row=0, column=0)
-        tk.Entry(self.register_frame, textvariable=self.username).grid(row=0, column=1)
-        tk.Label(self.register_frame, text="Password:").grid(row=1, column=0)
-        tk.Entry(self.register_frame, textvariable=self.password, show='*').grid(row=1, column=1)
-        tk.Button(self.register_frame, text="Confirm", command=self.register).grid(row=2, column=0, columnspan=2)
-        tk.Button(self.register_frame, text="Back", command=self.create_login_frame).grid(row=3, column=0, columnspan=2)
-'''
-
- 
 
 root.mainloop()
