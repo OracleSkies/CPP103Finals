@@ -13,36 +13,36 @@ def open_new_window():
         open_window = tk.Toplevel(root)
         open_window.title("IN, OUT, INVENTORY")
         open_window.geometry("1000x800")
-        open_window.resizable(False, False)
+        open_window.resizable(True, True)
 
 
 
 
 
 
-        bg_image_path = "blue.png"
+        bg_image_path = "1.png"
         open_window.bg = PhotoImage(file=bg_image_path)
         bg_label = tk.Label(open_window, image=open_window.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
         
-        new_window_in = tk.Button(open_window, text="IN", font=("Roboto", 60, "bold"), bg="#00CED1", command=window_IN, width= 15, borderwidth= 0)
+        new_window_in = tk.Button(open_window, text="IN", font=("Times New Roman", 60, "bold"), bg="#00CED1", fg= "White", command=window_IN, width= 15, borderwidth= 0)
         new_window_in.pack()
         
-        new_window_inventory = tk.Button(open_window, text="INVENTORY", font=("Roboto", 70, "bold"), fg="Silver", command=window_INVENTORY)
-        new_window_inventory.pack(pady=30)
+        new_window_inventory = tk.Button(open_window, text="INVENTORY", font=("Times New Roman", 60, "bold"), bg="#00CED1",fg= "White", width= 15, command=window_INVENTORY)
+        new_window_inventory.pack(pady=40)
         
-        new_window_out = tk.Button(open_window, text="OUT", font=("Roboto", 70, "bold"), fg="Silver", command=window_OUT)
-        new_window_out.pack(pady=30)
+        new_window_out = tk.Button(open_window, text="OUT", font=("Times New Roman", 60, "bold"), bg="#00CED1", fg= "White", width= 15 ,command=window_OUT)
+        new_window_out.pack(pady= 10)
 
 def window_IN():
     open_window_IN = tk.Toplevel(root)
     open_window_IN.title("IN WINDOW")
     open_window_IN.geometry("1000x800")
-    bg_image_path = "blue.png"
+    bg_image_path = "1.png"
     open_window_IN.bg = PhotoImage(file=bg_image_path)
     bg_label = tk.Label(open_window_IN, image=open_window_IN.bg)
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-    open_window_IN.resizable(False, False)
+    open_window_IN.resizable(True, True)
 
 
 
@@ -54,31 +54,31 @@ def window_INVENTORY():
     open_window_INVENTORY = tk.Toplevel(root)
     open_window_INVENTORY.title("INVENTORY WINDOW")
     open_window_INVENTORY.geometry("1000x800")
-    bg_image_path = "blue.png"
+    bg_image_path = "1.png"
     open_window_INVENTORY.bg = PhotoImage(file=bg_image_path)
     bg_label = tk.Label(open_window_INVENTORY, image=open_window_INVENTORY.bg)
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-    open_window_INVENTORY.resizable(False, False)
+    open_window_INVENTORY.resizable(True, True)
 
 
 
 
 
-    new_window_INVENTORY_button = tk.Button(open_window_INVENTORY, text="kaya mo na to elisha")
+    new_window_INVENTORY_button = tk.Button(open_window_INVENTORY, text="kaya mo na to elisha", bg ="#00CED1", width= 15)
     new_window_INVENTORY_button.pack()
 
 def window_OUT():
     open_window_OUT = tk.Toplevel(root)
     open_window_OUT.title("OUT WINDOW")
     open_window_OUT.geometry("1000x800")
-    bg_image_path = "C:\\Users\\aaron\\OneDrive\\Documents\\GitHub\\CPP103Finals\\blue.png"
+    bg_image_path = "1.png"
     open_window_OUT.bg = PhotoImage(file=bg_image_path)
     bg_label = tk.Label(open_window_OUT, image=open_window_OUT.bg)
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-    open_window_OUT.resizable(False, False)
+    open_window_OUT.resizable(True, True)
 
 
-    new_window_OUT_button = tk.Button(open_window_OUT, text="kaya mo na to elisha")
+    new_window_OUT_button = tk.Button(open_window_OUT, text="kaya mo na to elisha",bg ="#00CED1", width= 15)
     new_window_OUT_button.pack()
 
 
