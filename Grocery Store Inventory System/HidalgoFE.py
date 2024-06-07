@@ -84,13 +84,13 @@ User_Entry = tk.StringVar()
 Password_Entry = tk.StringVar()
 
 
-username_label = tk.Label(root, text="Username", font=("Aharoni", 20), fg="white", bg="#000150")
+username_label = tk.Label(root, text="Username", font=("Roboto", 20), fg="white", bg="#000150")
 username_label.pack(pady=20)
 username_entry = tk.Entry(root, textvariable=User_Entry, font=("Arial", 14), width=30, borderwidth=5)
 username_entry.pack(pady=10)
 
 
-password_label = tk.Label(root, text="Password", font=("Aharoni", 20), fg="white", bg="#00006E")
+password_label = tk.Label(root, text="Password", font=("Roboto", 20), fg="white", bg="#00006E")
 password_label.pack(pady=20)
 password_entry = tk.Entry(root, textvariable=Password_Entry, font=("Arial", 14), width=30, borderwidth=5, show="*")
 password_entry.pack(pady=10)
@@ -99,7 +99,7 @@ password_entry.pack(pady=10)
 error_label = tk.Label(root, text="", font=("Arial", 14), fg="red", bg="#000029")
 error_label.pack()
 
-login_button = tk.Button(root, text="Log In", font=("Aharoni", 16), borderwidth=3, command=open_new_window)
+login_button = tk.Button(root, text="Log In", font=("Roboto", 16), borderwidth=3, command=open_new_window)
 login_button.pack(pady=40)
 
 root.mainloop()
