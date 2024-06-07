@@ -42,17 +42,12 @@ def window_IN():
     open_window_IN.bg = PhotoImage(file=bg_image_path)
     bg_label = tk.Label(open_window_IN, image=open_window_IN.bg)
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-<<<<<<< HEAD
-    
-    new_window_IN_button = tk.Button(open_window_IN, text="kaya mo na to a-aron")
-=======
     open_window_IN.resizable(True, True)
 
 
 
 
     new_window_IN_button = tk.Button(open_window_IN, text="kaya mo na to elisha")
->>>>>>> 16a1dc207224315f067071270cfa41ccbb728514
     new_window_IN_button.pack()
 
 def window_INVENTORY():
@@ -63,10 +58,6 @@ def window_INVENTORY():
     open_window_INVENTORY.bg = PhotoImage(file=bg_image_path)
     bg_label = tk.Label(open_window_INVENTORY, image=open_window_INVENTORY.bg)
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-<<<<<<< HEAD
-    
-    new_window_INVENTORY_button = tk.Button(open_window_INVENTORY, text="kaya mo na to a-aron")
-=======
     open_window_INVENTORY.resizable(True, True)
 
 
@@ -74,7 +65,6 @@ def window_INVENTORY():
 
 
     new_window_INVENTORY_button = tk.Button(open_window_INVENTORY, text="kaya mo na to elisha", bg ="#00CED1", width= 15)
->>>>>>> 16a1dc207224315f067071270cfa41ccbb728514
     new_window_INVENTORY_button.pack()
 
 def window_OUT():
@@ -85,15 +75,12 @@ def window_OUT():
     open_window_OUT.bg = PhotoImage(file=bg_image_path)
     bg_label = tk.Label(open_window_OUT, image=open_window_OUT.bg)
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-<<<<<<< HEAD
     
     new_window_OUT_button = tk.Button(open_window_OUT, text="kaya mo na to a-aron")
-=======
     open_window_OUT.resizable(True, True)
 
 
     new_window_OUT_button = tk.Button(open_window_OUT, text="kaya mo na to elisha",bg ="#00CED1", width= 15)
->>>>>>> 16a1dc207224315f067071270cfa41ccbb728514
     new_window_OUT_button.pack()
 
 
