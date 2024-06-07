@@ -26,13 +26,13 @@ def open_new_window():
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
         
         new_window_in = tk.Button(open_window, text="IN", font=("Times New Roman", 60, "bold"), bg="#00CED1", fg= "White", command=window_IN, width= 15, borderwidth= 0)
-        new_window_in.pack()
+        new_window_in.pack(pady = 70)
         
         new_window_inventory = tk.Button(open_window, text="INVENTORY", font=("Times New Roman", 60, "bold"), bg="#00CED1",fg= "White", width= 15, command=window_INVENTORY)
-        new_window_inventory.pack(pady=40)
+        new_window_inventory.pack(pady=70)
         
         new_window_out = tk.Button(open_window, text="OUT", font=("Times New Roman", 60, "bold"), bg="#00CED1", fg= "White", width= 15 ,command=window_OUT)
-        new_window_out.pack(pady= 10)
+        new_window_out.pack(pady= 70)
 
 def window_IN():
     open_window_IN = tk.Toplevel(root)
