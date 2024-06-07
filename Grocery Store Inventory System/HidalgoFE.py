@@ -37,7 +37,7 @@ def window_IN():
     bg_label = tk.Label(open_window_IN, image=open_window_IN.bg)
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
     
-    new_window_IN_button = tk.Button(open_window_IN, text="kaya mo na to elisha")
+    new_window_IN_button = tk.Button(open_window_IN, text="kaya mo na to a-aron")
     new_window_IN_button.pack()
 
 def window_INVENTORY():
@@ -49,7 +49,7 @@ def window_INVENTORY():
     bg_label = tk.Label(open_window_INVENTORY, image=open_window_INVENTORY.bg)
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
     
-    new_window_INVENTORY_button = tk.Button(open_window_INVENTORY, text="kaya mo na to elisha")
+    new_window_INVENTORY_button = tk.Button(open_window_INVENTORY, text="kaya mo na to a-aron")
     new_window_INVENTORY_button.pack()
 
 def window_OUT():
@@ -61,7 +61,7 @@ def window_OUT():
     bg_label = tk.Label(open_window_OUT, image=open_window_OUT.bg)
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
     
-    new_window_OUT_button = tk.Button(open_window_OUT, text="kaya mo na to elisha")
+    new_window_OUT_button = tk.Button(open_window_OUT, text="kaya mo na to a-aron")
     new_window_OUT_button.pack()
 
 
