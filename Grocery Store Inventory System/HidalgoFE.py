@@ -87,7 +87,7 @@ root.title("Grocery Store Inventory System")
 root.geometry("1000x800")
 
 
-bg_image_path = "blue.png"
+bg_image_path = "1.png"
 bg = PhotoImage(file=bg_image_path)
 
 bg_label = tk.Label(root, image=bg)
