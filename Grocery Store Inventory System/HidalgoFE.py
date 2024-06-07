@@ -47,7 +47,7 @@ def window_IN():
 
 
 
-    new_window_IN_button = tk.Button(open_window_IN, text="kaya mo na to elisha")
+    new_window_IN_button = tk.Button(open_window_IN, text="kaya mo na to A-ARON")
     new_window_IN_button.pack()
 
 def window_INVENTORY():
@@ -64,7 +64,7 @@ def window_INVENTORY():
 
 
 
-    new_window_INVENTORY_button = tk.Button(open_window_INVENTORY, text="kaya mo na to elisha", bg ="#00CED1", width= 15)
+    new_window_INVENTORY_button = tk.Button(open_window_INVENTORY, text="kaya mo na to A=ARON", bg ="#00CED1", width= 15)
     new_window_INVENTORY_button.pack()
 
 def window_OUT():
@@ -80,7 +80,7 @@ def window_OUT():
     open_window_OUT.resizable(True, True)
 
 
-    new_window_OUT_button = tk.Button(open_window_OUT, text="kaya mo na to elisha",bg ="#00CED1", width= 15)
+    new_window_OUT_button = tk.Button(open_window_OUT, text="kaya mo na to A-ARON",bg ="#00CED1", width= 15)
     new_window_OUT_button.pack()
 
 
