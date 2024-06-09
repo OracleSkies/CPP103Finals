@@ -3,6 +3,28 @@
 from tkinter import *
 import tkinter as tk
 
+def signUp():
+     
+     signUP_window = tk.Toplevel(root)
+     signUP_window.title('SIGN UP')
+     signUP_window.geometry('1000x800')
+     signUP_window.resizable(True, True)
+     
+     
+     bg_image_path = "1.png"
+     signUP_window.bg = PhotoImage(file=bg_image_path)
+     bg_label = tk.Label(signUP_window, image=signUP_window.bg)
+     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+
+
+
+
+
+
+
+
+
 def open_new_window():
     username = User_Entry.get()
     password = Password_Entry.get()
@@ -148,7 +170,9 @@ password_entry.pack(pady=10)
 error_label = tk.Label(root, text="", font=("Arial", 14), fg="red", bg="#000029")
 error_label.pack()
 
-login_button = tk.Button(root, text="Log In", font=("Roboto", 16), borderwidth=3, command=open_new_window)
-login_button.pack(pady=40)
+signIN_button = tk.Button(root, text="Sign In", font=("Roboto", 16), borderwidth=3, command=open_new_window)
+signIN_button.pack(pady=40)
 
+signUp_button = tk.Button(root, text="Sign Up", font=("Roboto", 16), borderwidth=3, command = signUp)
+signUp_button.pack(pady= 20)
 root.mainloop()
