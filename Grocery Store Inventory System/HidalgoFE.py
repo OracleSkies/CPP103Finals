@@ -15,17 +15,16 @@ def open_new_window():
         open_window.geometry("1000x800")
         open_window.resizable(True, True)
 
-
-
-
-
+        
 
         bg_image_path = "1.png"
         open_window.bg = PhotoImage(file=bg_image_path)
         bg_label = tk.Label(open_window, image=open_window.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        #in_btn = PhotoImage(file= 'bg buttons.png')
         
-        new_window_in = tk.Button(open_window, text="IN", font=("Times New Roman", 60, "bold"), bg="#00CED1", fg= "White", command=window_IN, width= 15, borderwidth= 0)
+        
+        new_window_in = tk.Button(open_window, text="IN", font=("Times New Roman", 60, "bold"), bg="#00CED1", fg= "White", command=window_IN, width= 15)
         new_window_in.pack(pady = 70)
         
         new_window_inventory = tk.Button(open_window, text="INVENTORY", font=("Times New Roman", 60, "bold"), bg="#00CED1",fg= "White", width= 15, command=window_INVENTORY)
@@ -47,9 +46,39 @@ def window_IN():
 
 
 
-    new_window_IN_button = tk.Button(open_window_IN, text="kaya mo na to A-ARON")
-    new_window_IN_button.pack()
+    new_window_IN_label = tk.Label(open_window_IN, text="IN", font= ("Times New Roman", 40), width= 10)
+    new_window_IN_label.pack()
+    
+    new_window_IN_type = tk.Label(open_window_IN, text = "TYPE", font = ("Times New Roman", 35))
+    new_window_IN_type.pack(pady= 20)
+    
+    new_window_IN_type_entry = tk.Entry(open_window_IN, fg="Black", font = ("Times New Roman", 30), width= 15)
+    new_window_IN_type_entry.pack()
+    
+    new_window_IN_quantity = tk.Label(open_window_IN, text = "QUANTITY", font = ("Times New Roman", 35))
+    new_window_IN_quantity.pack(pady= 20)
+    
+    new_window_IN_quantity = tk.Entry(open_window_IN, fg="Black", font = ("Times New Roman", 30), width= 15)
+    new_window_IN_quantity.pack()
+    
+    new_window_IN_price = tk.Label(open_window_IN, text = "PRICE", font = ("Times New Roman", 35))
+    new_window_IN_price.pack(pady= 20)
+    
+    new_window_IN_price = tk.Entry(open_window_IN, fg="Black", font = ("Times New Roman", 30), width= 15)
+    new_window_IN_price.pack()
 
+    new_window_IN_name = tk.Label(open_window_IN, text = "NAME", font = ("Times New Roman", 35))
+    new_window_IN_name.pack(pady= 20)
+    
+    new_window_IN_name = tk.Entry(open_window_IN, fg="Black", font = ("Times New Roman", 30), width= 15)
+    new_window_IN_name.pack()
+    
+    new_window_IN_barcode = tk.Label(open_window_IN, text = "BARCODE", font = ("Times New Roman", 35))
+    new_window_IN_barcode.pack(pady= 20)
+    
+    new_window_IN_barcode = tk.Entry(open_window_IN, fg="Black", font = ("Times New Roman", 30), width= 15)
+    new_window_IN_barcode.pack()
+    
 def window_INVENTORY():
     open_window_INVENTORY = tk.Toplevel(root)
     open_window_INVENTORY.title("INVENTORY WINDOW")
@@ -92,6 +121,7 @@ root.geometry("1000x800")
 bg_image_path = "2.png"
 bg = PhotoImage(file=bg_image_path)
 
+
 bg_label = tk.Label(root, image=bg)
 bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
@@ -109,7 +139,7 @@ username_entry = tk.Entry(root, textvariable=User_Entry, font=("Arial", 14), wid
 username_entry.pack(pady=10)
 
 
-password_label = tk.Label(root, text="Password", font=("Roboto", 20), fg="white", bg="#00006E")
+password_label = tk.Label(root, text="Password", font=("Roboto", 20), fg="white", bg ="#000150" )
 password_label.pack(pady=20)
 password_entry = tk.Entry(root, textvariable=Password_Entry, font=("Arial", 14), width=30, borderwidth=5, show="*")
 password_entry.pack(pady=10)
