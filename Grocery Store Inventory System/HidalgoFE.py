@@ -4,7 +4,7 @@ from tkinter import *
 import tkinter as tk
 
 def signUp():
-     
+
      signUP_window = tk.Toplevel(root)
      signUP_window.title('SIGN UP')
      signUP_window.geometry('1000x800')
