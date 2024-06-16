@@ -83,17 +83,3 @@ class Registration_Window(customtkinter.CTk):
         self.registration_Frame = Registration_Frame(master = self)
         self.registration_Frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-
-
-"""
-INSIDE THIS COMMENT ARE SAMPLE OBJECTS. WAG TO ISASAMA SA MAIN BRANCH
-"""
-run_Login_Window = Login_Window()
-run_Login_Window.mainloop()
-
-run_Registration_Window = Registration_Window()
-run_Registration_Window.mainloop()
-
-"""
-INSIDE THIS COMMENT ARE SAMPLE OBJECTS. WAG TO ISASAMA SA MAIN BRANCH
-"""
