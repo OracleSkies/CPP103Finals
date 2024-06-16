@@ -1,6 +1,7 @@
 import tkinter as tk
 import customtkinter
 from PIL import ImageTk, Image
+from DonascoBE import Registration_System
 
 header_Font = ('Century Gothic', 20)
 label_Font = ('Century Gothic', 12)
@@ -44,8 +45,10 @@ class Login_Window(customtkinter.CTk):
 #======================= R E G I S T R A T I O N   W I N D O W    C L A S S E S ======================================
 
 class Registration_Frame(customtkinter.CTkFrame):
-    def __init__(self, master, **kwargs):
+    def __init__(self, master, host, user, password, database, database_reference, **kwargs ):
         super().__init__(master, **kwargs)
+
+        self.registration = Registration_System(host, user, password, database, database_reference,)
 
         self.configure(self, width=320, height=360, corner_radius=15)
 
@@ -61,8 +64,9 @@ class Registration_Frame(customtkinter.CTkFrame):
         self.confirm_password_Entry_Box = customtkinter.CTkEntry(self, width=220, placeholder_text='Confirm Password', show="*")
         self.confirm_password_Entry_Box.place(x=50, y=220)
 
+        self.registration = Registration_System(host, user, password, database, database_reference, self.username_Entry_Box.get(), self.password_Entry_Box.get(), self.confirm_password_Entry_Box.get())
         #command=register_function
-        self.register_Button = customtkinter.CTkButton(self, width=220, text="Register", corner_radius=6)
+        self.register_Button = customtkinter.CTkButton(self, width=220, text="Register", command = self.registration.register_Account,corner_radius=6)
         self.register_Button.place(x=50, y=275)
 
         #command=back_to_login
@@ -71,8 +75,15 @@ class Registration_Frame(customtkinter.CTkFrame):
 
 
 class Registration_Window(customtkinter.CTk):
-    def __init__(self):
+    def __init__(self, host, user, password, database, database_reference):
         super().__init__()
+
+        self.host = host
+        self.user = user
+        self.password = password
+        self.database = database
+        self.database_reference = database_reference
+
         self.geometry("600x440")
         self.title('Registration')
 
@@ -80,6 +91,6 @@ class Registration_Window(customtkinter.CTk):
         self.bg_Image_Label = customtkinter.CTkLabel(self, image=self.background_Image)
         self.bg_Image_Label.pack()
 
-        self.registration_Frame = Registration_Frame(master = self)
+        self.registration_Frame = Registration_Frame(self, host, user, password, database, database_reference)
         self.registration_Frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 

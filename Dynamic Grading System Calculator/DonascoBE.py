@@ -34,7 +34,7 @@ class Table_Interaction(Database_Interaction):
         )
 
     
-    def Create_Table(self, host, user, password, database_reference, table_name):
+    """def Create_Table(self, host, user, password, database_reference, table_name):
         database_connect = mysql.connector.connect(
             host = host,
             user = user,
@@ -42,7 +42,7 @@ class Table_Interaction(Database_Interaction):
             database = database_reference,
         )
         cursor = database_connect.cursor()
-        cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name}(userID INT AUTO_INCREMENT PRIMARY KEY)") #HINDI PA ITO TAPOS
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name}(userID INT AUTO_INCREMENT PRIMARY KEY)") #HINDI PA ITO TAPOS"""
 
 
 class Login_System:
