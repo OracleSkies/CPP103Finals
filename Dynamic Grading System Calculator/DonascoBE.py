@@ -63,7 +63,7 @@ class Registration_System(Table_Interaction):
                        password VARCHAR(255))")
         
         if self.reg_Password == self.reg_Confirm_Pass:
-            sqlCommand = "INSERT INTO registered_Users (username, password) VALUSE (%s,%s)"
+            sqlCommand = "INSERT INTO registered_Users (username, password) VALUES (%s, %s)"
             values = (self.reg_Username, self.reg_Password)
             cursor.execute(sqlCommand,values)
             self.database_Connect.commit()

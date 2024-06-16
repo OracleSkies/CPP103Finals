@@ -48,8 +48,6 @@ class Registration_Frame(customtkinter.CTkFrame):
     def __init__(self, master, host, user, password, database, database_reference, **kwargs ):
         super().__init__(master, **kwargs)
 
-        self.registration = Registration_System(host, user, password, database, database_reference,)
-
         self.configure(self, width=320, height=360, corner_radius=15)
 
         self.header_Label = customtkinter.CTkLabel(self, text="Create a New Account", font=header_Font)
@@ -63,15 +61,18 @@ class Registration_Frame(customtkinter.CTkFrame):
 
         self.confirm_password_Entry_Box = customtkinter.CTkEntry(self, width=220, placeholder_text='Confirm Password', show="*")
         self.confirm_password_Entry_Box.place(x=50, y=220)
-
-        self.registration = Registration_System(host, user, password, database, database_reference, self.username_Entry_Box.get(), self.password_Entry_Box.get(), self.confirm_password_Entry_Box.get())
+        
         #command=register_function
-        self.register_Button = customtkinter.CTkButton(self, width=220, text="Register", command = self.registration.register_Account,corner_radius=6)
+        self.register_Button = customtkinter.CTkButton(self, width=220, text="Register", command = lambda:register_Button_On_Click(host, user, password, database, database_reference),corner_radius=6)
         self.register_Button.place(x=50, y=275)
 
         #command=back_to_login
         self.back_Button = customtkinter.CTkButton(self, width=220, text="Back", corner_radius=6)
         self.back_Button.place(x=50, y=310)
+
+        def register_Button_On_Click(host, user, password, database, database_reference):
+            self.registration = Registration_System(host, user, password, database, database_reference, self.username_Entry_Box.get(), self.password_Entry_Box.get(), self.confirm_password_Entry_Box.get())
+            self.registration.register_Account()
 
 
 class Registration_Window(customtkinter.CTk):

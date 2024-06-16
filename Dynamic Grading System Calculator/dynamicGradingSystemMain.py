@@ -13,7 +13,7 @@ database = Table_Interaction(dbinfo['host'],dbinfo['user'],dbinfo['password'],da
 
 database.Create_Database(dbname)
 
-registration_Window = Registration_Window(dbinfo['host'],dbinfo['user'],dbinfo['password'],dbname)
+registration_Window = Registration_Window(dbinfo['host'],dbinfo['user'],dbinfo['password'],database_command,dbname)
 
-
+registration_Window.mainloop()
 
