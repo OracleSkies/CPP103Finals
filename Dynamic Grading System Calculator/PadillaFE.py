@@ -2,6 +2,8 @@ import tkinter as tk
 import customtkinter
 from PIL import ImageTk, Image
 
+header_Font = ('Century Gothic', 20)
+label_Font = ('Century Gothic', 12)
 #================================ L O G I N   W I N D O W    C L A S S E S ======================================
 class Login_Frame(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -9,7 +11,7 @@ class Login_Frame(customtkinter.CTkFrame):
 
         self.configure(width=320, height=360, corner_radius=15)
 
-        self.header_Label = customtkinter.CTkLabel(self, text="Log into your Account", font=('Century Gothic', 20))
+        self.header_Label = customtkinter.CTkLabel(self, text="Log into your Account", font= header_Font)
         self.header_Label.place(x=50, y=45)
 
         self.username_Entry_Box = customtkinter.CTkEntry(self, width=220, placeholder_text='Username')
@@ -18,7 +20,7 @@ class Login_Frame(customtkinter.CTkFrame):
         self.password_Entry_Box = customtkinter.CTkEntry(self, width=220, placeholder_text='Password', show="*")
         self.password_Entry_Box.place(x=50, y=165)
 
-        self.for_Registration_Label = customtkinter.CTkLabel(self, text="Don't have an account?", font=('Century Gothic', 12))
+        self.for_Registration_Label = customtkinter.CTkLabel(self, text="Don't have an account?", font=label_Font)
         self.for_Registration_Label.place(x=125, y=195)
 
         self.log_In_Button = customtkinter.CTkButton(self, width=220, text="Login", corner_radius=6) #command= self.login_function
@@ -47,7 +49,7 @@ class Registration_Frame(customtkinter.CTkFrame):
 
         self.configure(self, width=320, height=360, corner_radius=15)
 
-        self.header_Label = customtkinter.CTkLabel(self, text="Create a New Account", font=('Century Gothic', 20))
+        self.header_Label = customtkinter.CTkLabel(self, text="Create a New Account", font=header_Font)
         self.header_Label.place(x=50, y=45)
 
         self.username_Entry_Box = customtkinter.CTkEntry(self, width=220, placeholder_text='Username')
