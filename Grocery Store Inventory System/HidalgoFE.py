@@ -122,14 +122,14 @@ class GroceryApp:
         open_window_inventory = tk.Toplevel(self.root)
         open_window_inventory.title("INVENTORY WINDOW")
         open_window_inventory.geometry("1000x800")
-        bg = PhotoImage(file="2.png")  # Use the provided image path here
+        bg = PhotoImage(file="2.png")  
         open_window_inventory.bg = PhotoImage(file=self.bg_image_path)
         bg_label = tk.Label(open_window_inventory, image=open_window_inventory.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
         open_window_inventory.resizable(True, True)
 
         # Inventory UI
-        main_frame = tk.Frame(open_window_inventory, open_window_inventory.bg)
+        main_frame = tk.Frame(open_window_inventory, )
         main_frame.pack(fill=tk.BOTH, expand=True)
 
         # Title
