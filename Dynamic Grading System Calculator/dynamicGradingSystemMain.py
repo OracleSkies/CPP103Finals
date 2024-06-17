@@ -1,5 +1,5 @@
 from DonascoBE import Table_Interaction
-from PadillaFE import Registration_Window 
+from PadillaFE import Registration_Window, Login_Window 
 import mysql.connector
 
 dbinfo = {
@@ -13,7 +13,11 @@ database = Table_Interaction(dbinfo['host'],dbinfo['user'],dbinfo['password'],da
 
 database.Create_Database(dbname)
 
-registration_Window = Registration_Window(dbinfo['host'],dbinfo['user'],dbinfo['password'],database_command,dbname)
+login_Window = Login_Window(dbinfo['host'],dbinfo['user'],dbinfo['password'],database_command,dbname)
+login_Window.mainloop()
 
-registration_Window.mainloop()
+
+"""
+registration_Window = Registration_Window(dbinfo['host'],dbinfo['user'],dbinfo['password'],database_command,dbname)
+registration_Window.mainloop()"""
 

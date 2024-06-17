@@ -35,7 +35,7 @@ class Table_Interaction(Database_Interaction):
 
 
 class Login_System(Table_Interaction):
-    def __init__(self, host, user, password, database, database_reference, login_username, login_password)
+    def __init__(self, host, user, password, database, database_reference, login_username, login_password):
         super().__init__(host, user, password, database, database_reference)
         self.login_username = login_username
         self.login_password = login_password
