@@ -1,6 +1,11 @@
 import tkinter as tk
 import sqlite3
 
+# Initialize the main window
+root = tk.Tk()
+root.title("Inventory Management")
+root.geometry("500x350")
+
 # Function to insert data into the database
 def insert_data():
     conn = sqlite3.connect('inventory.db')
@@ -18,10 +23,41 @@ def insert_data():
     conn.commit()
     conn.close()
 
-# Initialize the main window
-root = tk.Tk()
-root.title("IN")
-root.geometry("400x300")
+def confirm_addition():
+    # Insert data into the database and close the confirmation dialog
+    insert_data()
+    dialog.destroy()
+
+def cancel_addition():
+    # Close the main window
+    root.destroy()
+
+def show_confirmation_dialog():
+    global dialog
+    # Create a new top-level window for the confirmation dialog
+    dialog = tk.Toplevel(root)
+    dialog.title("Confirm Addition")
+    dialog.geometry("300x150")
+
+    # Create frame for dialog box
+    dialog_frame = tk.Frame(dialog)
+    dialog_frame.pack(pady=20)
+
+    # Add dialog text
+    dialog_label = tk.Label(dialog_frame, text="ADD PRODUCT TO THE INVENTORY?", font=("Arial", 14))
+    dialog_label.pack()
+
+    # Create frame for buttons
+    button_frame = tk.Frame(dialog)
+    button_frame.pack(pady=10)
+
+    # Add 'Yes' button
+    yes_button = tk.Button(button_frame, text="YES", command=confirm_addition)
+    yes_button.grid(row=0, column=0, padx=10)
+
+    # Add 'No' button
+    no_button = tk.Button(button_frame, text="NO", command=dialog.destroy)
+    no_button.grid(row=0, column=1)
 
 # Create frames for each section
 topFrame = tk.Frame(root)
@@ -70,10 +106,10 @@ barcodeEntry = tk.Entry(barcodeFrame)
 barcodeEntry.pack(side=tk.LEFT)
 
 # Add widgets to the bottom frame
-backButton = tk.Button(bottomFrame, text="BACK")
+backButton = tk.Button(bottomFrame, text="BACK", command=cancel_addition)
 backButton.pack(side=tk.LEFT, padx=10)
 
-confirmButton = tk.Button(bottomFrame, text="CONFIRM", command=insert_data)
+confirmButton = tk.Button(bottomFrame, text="CONFIRM", command=show_confirmation_dialog)
 confirmButton.pack(side=tk.LEFT)
 
 root.mainloop()
