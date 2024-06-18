@@ -7,7 +7,7 @@ class GroceryApp:
         self.root = root
         self.root.title("Grocery Store Inventory System")
         self.root.geometry("1000x800")
-
+        self.root.resizable(False, False)
         self.bg_image_path = "LOGIN GrADEBOOK.png"
         self.bg = PhotoImage(file=self.bg_image_path)
        
@@ -17,9 +17,19 @@ class GroceryApp:
         
         
         
-        self.button = tk.Entry(root)
-        self.button.grid(column= 3, row = 4, pady= 90, padx= 70)
+        self.entry_username = tk.Entry(root, font = ('Times New Roman', 20))
+        self.entry_username.place(relx = .20, rely = .53, relheight = .04, relwidth= .60)
         
+        self.entry_password = tk.Entry(root, font = ('Times New Roman', 20))
+        self.entry_password.place(relx = .20, rely = .67, relheight = .05, relwidth= .60)
+        
+        
+        self.button_logIN = tk.Button(root,text = "Log IN",font = ('Telegraf', 20, "bold"), bg = "midnight blue", fg = "white")
+        self.button_logIN.place(relx = .20, rely = .77, relheight = .07, relwidth= .19)
+        
+        
+        self.button_SignUP = tk.Button(root,text = "Sign UP",font = ('Telegraf', 20, "bold"), bg = "midnight blue", fg = "white")
+        self.button_SignUP.place(relx = .61, rely = .77, relheight = .07, relwidth= .19)
         
         
        
