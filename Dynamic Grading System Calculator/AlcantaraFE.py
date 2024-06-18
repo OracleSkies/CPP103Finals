@@ -20,7 +20,7 @@ class Login_and_Register_Window:
         self.entry_username = tk.Entry(root, font = ('Times New Roman', 20))
         self.entry_username.place(relx = .20, rely = .53, relheight = .05, relwidth= .60)
         
-        self.entry_password = tk.Entry(root, font = ('Times New Roman', 20))
+        self.entry_password = tk.Entry(root, font = ('Times New Roman', 20), show= "*")
         self.entry_password.place(relx = .20, rely = .67, relheight = .05, relwidth= .60)
         
         
@@ -49,10 +49,10 @@ class Login_and_Register_Window:
         self.emailAcc_entry = tk.Entry(self.signUP_window, font = ('Times New Roman', 20))
         self.emailAcc_entry.place(relx = .47, rely = .40, relheight = .05, relwidth= .37)
         
-        self.password_entry = tk.Entry(self.signUP_window, font = ('Times New Roman', 20))
+        self.password_entry = tk.Entry(self.signUP_window, font = ('Times New Roman', 20), show="*")
         self.password_entry.place(relx = .47, rely = .53, relheight = .05, relwidth= .37)
         
-        self.confirm_password_entry = tk.Entry(self.signUP_window, font = ('Times New Roman', 20))
+        self.confirm_password_entry = tk.Entry(self.signUP_window, font = ('Times New Roman', 20), show = "*")
         self.confirm_password_entry.place(relx = .47, rely = .66, relheight = .05, relwidth= .37)
         
         self.sumbit_button = tk.Button(self.signUP_window,text = "Submit" ,font = ('Telegraf', 20, "bold"), bg = "#042C40", fg = "white", borderwidth= 0, command=self.register)
@@ -63,8 +63,26 @@ class Login_and_Register_Window:
         register.register_Account()
     
     def login(self):
-        login = Login_System(self.entry_username.get(), self.entry_password.get(), self.root)
+        login = Login_System(self.entry_username.get(), self.entry_password.get(), self.root, command = self.HomeDashBoard)
         login.login_Account()
+        
+        
+        
+    def HomeDashBoard(self):
+        self.Home_window = tk.Toplevel(self.root)
+        self.Home_window.geometry('1560x1000')
+        self.Home_window.resizable(False, False)
+        
+        self.bg_image_path = "home dashboard.png"
+        self.signUP_window.bg = PhotoImage(file=self.bg_image_path)
+        self.bg_label = tk.Label(self.Home_window, image=self.Home_window.bg)
+        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)   
+  
+    
+    
+    
+    
+    
     
 if __name__ == "__main__":
     root = tk.Tk()
