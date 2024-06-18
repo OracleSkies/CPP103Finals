@@ -69,17 +69,39 @@ class Login_and_Register_Window:
 
         
     def HomeDashBoard(self):
+       
         self.Home_window = tk.Tk()
+        self.Home_window.title("DashBoard")
         self.Home_window.geometry('1560x1000')
         self.Home_window.resizable(False, False)
         
-        self.bg_image_path = "home dashboard.jpg"
-        self.signUP_window.bg = PhotoImage(file=self.bg_image_path)
+        self.bg_image_path = "Dashboard1pls.png"
+        self.Home_window.bg = PhotoImage(file=self.bg_image_path)
         self.bg_label = tk.Label(self.Home_window, image=self.Home_window.bg)
         self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-        self.Home_window.mainloop()   
+        
+        
+        
+        HomeDasboard_button = tk.Button(self.Home_window, text = "Home", font= ("Telegraf", 20, "bold"), bg ="#084766", fg = "white" )
+        HomeDasboard_button.place(relx = .07, rely = .24, relheight = .05, relwidth= .13)
+        
+        HomeDasboard_grade = tk.Button(self.Home_window, text = "Grade", font= ("Telegraf", 20, "bold"), bg ="#084766", fg = "white" )
+        HomeDasboard_grade.place(relx = .07, rely = .34, relheight = .05, relwidth= .13)
+        
+        HomeDasboard_subject = tk.Button(self.Home_window, text = "Subject", font= ("Telegraf", 20, "bold"), bg ="#084766", fg = "white" )
+        HomeDasboard_subject.place(relx = .07, rely = .42, relheight = .05, relwidth= .13)
+        
+        HomeDasboard_student = tk.Button(self.Home_window, text = "Student", font= ("Telegraf", 20, "bold"), bg ="#084766", fg = "white" )
+        HomeDasboard_student.place(relx = .07, rely = .51, relheight = .05, relwidth= .13)
+        
+        HomeDasboard_logout = tk.Button(self.Home_window, text = "Log Out", font= ("Telegraf", 20, "bold"), bg ="#084766", fg = "white" )
+        HomeDasboard_logout.place(relx = .07, rely = .61, relheight = .05, relwidth= .13)
   
-    
+        
+        
+
+        
+        self.Home_window.mainloop() 
     
     
     
