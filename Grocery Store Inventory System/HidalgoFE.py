@@ -1,13 +1,14 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk
 
+
 class GroceryApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Grocery Store Inventory System")
         self.root.geometry("1000x800")
 
-        self.bg_image_path = "2.png"
+        self.bg_image_path = "main.png"
         self.bg = PhotoImage(file=self.bg_image_path)
 
         self.bg_label = tk.Label(root, image=self.bg)
@@ -44,10 +45,14 @@ class GroceryApp:
         sign_up_window.geometry('1000x800')
         sign_up_window.resizable(True, True)
 
-        bg_image_path = "1.png"
+        bg_image_path = "main.png"
         sign_up_window.bg = PhotoImage(file=bg_image_path)
         bg_label = tk.Label(sign_up_window, image=sign_up_window.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        
+        
+        
+        
 
     def open_new_window(self):
         username = self.user_entry_var.get()
@@ -61,7 +66,7 @@ class GroceryApp:
             open_window.geometry("1000x800")
             open_window.resizable(True, True)
 
-            bg_image_path = "1.png"
+            bg_image_path = "main.png"
             open_window.bg = PhotoImage(file=bg_image_path)
             bg_label = tk.Label(open_window, image=open_window.bg)
             bg_label.place(x=0, y=0, relwidth=1, relheight=1)
@@ -79,7 +84,7 @@ class GroceryApp:
         open_window_in = tk.Toplevel(self.root)
         open_window_in.title("IN WINDOW")
         open_window_in.geometry("1000x800")
-        bg_image_path = "1.png"
+        bg_image_path = "main.png"
         open_window_in.bg = PhotoImage(file=bg_image_path)
         bg_label = tk.Label(open_window_in, image=open_window_in.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
@@ -119,24 +124,24 @@ class GroceryApp:
         new_window_in_barcode_entry.pack()
 
     def window_inventory(self):
-        open_window_inventory = tk.Toplevel(self.root)
-        open_window_inventory.title("INVENTORY WINDOW")
-        open_window_inventory.geometry("1000x800")
-        bg = PhotoImage(file="2.png")  
-        open_window_inventory.bg = PhotoImage(file=self.bg_image_path)
-        bg_label = tk.Label(open_window_inventory, image=open_window_inventory.bg)
+        open_window_invetory = tk.Toplevel(self.root)
+        open_window_invetory.title("OUT WINDOW")
+        open_window_invetory.geometry("1000x800")
+        bg_image_path = "main.png"
+        open_window_invetory.bg = PhotoImage(file=bg_image_path)
+        bg_label = tk.Label(open_window_invetory, image=open_window_invetory.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-        open_window_inventory.resizable(True, True)
+        open_window_invetory.resizable(True, True)
 
-        # Inventory UI
-        main_frame = tk.Frame(open_window_inventory, )
+        
+        main_frame = tk.Frame(open_window_invetory)
         main_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Title
+        
         title_label = tk.Label(main_frame, text="INVENTORY", bg='#add8e6', font=("Helvetica", 16, "bold"))
         title_label.pack(pady=10)
 
-        # Search Bar Frame
+        
         search_frame = tk.Frame(main_frame, bg='#add8e6')
         search_frame.pack(fill=tk.X, padx=20, pady=5)
 
@@ -149,7 +154,7 @@ class GroceryApp:
         search_button = tk.Button(search_frame, text="🔍")
         search_button.pack(side=tk.LEFT)
 
-        # Table Frame
+        
         table_frame = tk.Frame(main_frame)
         table_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
 
@@ -166,13 +171,38 @@ class GroceryApp:
         open_window_out = tk.Toplevel(self.root)
         open_window_out.title("OUT WINDOW")
         open_window_out.geometry("1000x800")
-        bg_image_path = "1.png"
+        bg_image_path = "main.png"
         open_window_out.bg = PhotoImage(file=bg_image_path)
         bg_label = tk.Label(open_window_out, image=open_window_out.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        open_window_out.resizable(True, True)
 
-        new_window_out_button = tk.Button(open_window_out, text="kaya mo na to A-ARON", bg="#00CED1", width=15)
-        new_window_out_button.pack()
+        
+        search_label = tk.Label(open_window_out, text="SEARCH", font=("Arial", 14), fg="white", bg="light blue")
+        search_label.pack(pady=20)
+
+        search_entry = tk.Entry(open_window_out, font=("Arial", 14), width=30, borderwidth=5)
+        search_entry.pack(pady=10)
+
+        table_frame = tk.Frame(open_window_out, bg="#000029")
+        table_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+        
+        headers = ["NAME", "BARCODE", "TYPE", "PRICE", "QUANTITY"]
+        for i, header in enumerate(headers):
+            label = tk.Label(table_frame, text=header, font=("Arial", 12), fg="white", bg="#000029", width=15, anchor="center")
+            label.grid(row=0, column=i, padx=10, pady=10)
+
+       
+       
+
+        
+        back_button = tk.Button(open_window_out, text="BACK", font=("Roboto", 16), borderwidth=3, bg="#00CED1", fg="White", width=10 )
+        back_button.pack(side=tk.LEFT, padx=20, pady=20)
+
+        confirm_button = tk.Button(open_window_out, text="CONFIRM", font=("Roboto", 16), borderwidth=3, bg="#00CED1", fg="White", width=10)
+        confirm_button.pack(side=tk.RIGHT, padx=20, pady=20)
+
 
 if __name__ == "__main__":
     root = tk.Tk()
