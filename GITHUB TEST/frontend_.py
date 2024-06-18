@@ -66,6 +66,7 @@ class MarketMate():
         sign_up_window.bg = PhotoImage(file=bg_image_path)
         bg_label = tk.Label(sign_up_window, image=sign_up_window.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        
 
     def open_new_window(self):
         username = self.user_entry_var.get()
@@ -82,16 +83,32 @@ class MarketMate():
             open_window.bg = PhotoImage(file=bg_image_path)
             bg_label = tk.Label(open_window, image=open_window.bg)
             bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-
-            new_window_in = tk.Button(open_window, text="IN", font=("Times New Roman", 60, "bold"), bg="#00CED1", fg="White", command=self.window_in, width=15)
-            new_window_in.pack(pady=70)
-
-            new_window_inventory = tk.Button(open_window, text="INVENTORY", font=("Times New Roman", 60, "bold"), bg="#00CED1", fg="White", width=15, command=self.window_inventory)
-            new_window_inventory.pack(pady=70)
-
-            new_window_out = tk.Button(open_window, text="OUT", font=("Times New Roman", 60, "bold"), bg="#00CED1", fg="White", width=15, command=self.window_out)
-            new_window_out.pack(pady=70)
             
+            new_window_back = tk.Button(open_window, text="<- BACK", font=("Roman", 20, "bold"), bg="#00CED1", fg="White", command=self.root.destroy, width=12)
+            new_window_back.pack(anchor="w")
+
+            new_window_in = tk.Button(open_window, text="   I N   ", font=("Times New Roman", 40, "bold"), bg="#00CED1", fg="White", command=self.window_in, width=12, height=2)
+            new_window_in.pack(pady=50)
+            
+            new_window_sales = tk.Button(open_window, text="WEEKLY\n SALES", font=("Times New Roman", 30, "bold"), bg="#00CED1", fg="White", width=12, height=5, command=self.weekly_sales)
+            new_window_sales.pack(side="left", pady=70, expand=True)
+            
+            new_window_sales = tk.Button(open_window, text="MONTHLY\n SALES", font=("Times New Roman", 30, "bold"), bg="#00CED1", fg="White", width=12, height=5, command=self.monthly_sales)
+            new_window_sales.pack(side="right", pady=70, expand=True)
+
+            new_window_inventory = tk.Button(open_window, text="INVENTORY", font=("Times New Roman", 40, "bold"), bg="#00CED1", fg="White", width=12, height=2, command=self.window_inventory)
+            new_window_inventory.pack(pady=50)
+
+            new_window_out = tk.Button(open_window, text="   OUT   ", font=("Times New Roman", 40, "bold"), bg="#00CED1", fg="White", width=12, height=2, command=self.window_out)
+            new_window_out.pack(pady=50)
+            
+        
+    def weekly_sales(self):
+        pass
+    
+    def monthly_sales(self):
+        pass
+    
     def window_in(self):
         open_window_in = tk.Toplevel(self.root)
         open_window_in.title("IN WINDOW")
@@ -100,40 +117,45 @@ class MarketMate():
         open_window_in.bg = PhotoImage(file=bg_image_path)
         bg_label = tk.Label(open_window_in, image=open_window_in.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-        open_window_in.resizable(True, True)
 
-        new_window_in_label = tk.Label(open_window_in, text="IN", font=("Times New Roman", 40), width=10)
-        new_window_in_label.pack()
+        new_window_in_label = tk.Label(open_window_in, text="  I  N  ", font=("Times New Roman", 50, "bold"), width=20)
+        new_window_in_label.pack(pady=30, side="top")
 
         new_window_in_type = tk.Label(open_window_in, text="TYPE", font=("Times New Roman", 35))
-        new_window_in_type.pack(pady=20)
+        new_window_in_type.pack(side="top", padx=5)
 
         new_window_in_type_entry = tk.Entry(open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
-        new_window_in_type_entry.pack()
+        new_window_in_type_entry.pack(side="top", padx=5)
 
         new_window_in_quantity = tk.Label(open_window_in, text="QUANTITY", font=("Times New Roman", 35))
-        new_window_in_quantity.pack(pady=20)
+        new_window_in_quantity.pack(side="top")
 
         new_window_in_quantity_entry = tk.Entry(open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
-        new_window_in_quantity_entry.pack()
+        new_window_in_quantity_entry.pack(side="top")
 
         new_window_in_price = tk.Label(open_window_in, text="PRICE", font=("Times New Roman", 35))
-        new_window_in_price.pack(pady=20)
+        new_window_in_price.pack(side="top")
 
         new_window_in_price_entry = tk.Entry(open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
-        new_window_in_price_entry.pack()
+        new_window_in_price_entry.pack(side="top")
 
         new_window_in_name = tk.Label(open_window_in, text="NAME", font=("Times New Roman", 35))
-        new_window_in_name.pack(pady=20)
+        new_window_in_name.pack(side="top")
 
         new_window_in_name_entry = tk.Entry(open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
-        new_window_in_name_entry.pack()
+        new_window_in_name_entry.pack(side="top")
 
         new_window_in_barcode = tk.Label(open_window_in, text="BARCODE", font=("Times New Roman", 35))
-        new_window_in_barcode.pack(pady=20)
+        new_window_in_barcode.pack(side="top")
 
         new_window_in_barcode_entry = tk.Entry(open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
-        new_window_in_barcode_entry.pack()
+        new_window_in_barcode_entry.pack(side="top")
+        
+        new_window_in_done = tk.Button(open_window_in, text="DONE", font=("Times New Roman", 35))
+        new_window_in_done.pack(side="left", expand=True)
+        
+        new_window_in_exit = tk.Button(open_window_in, text="EXIT", font=("Times New Roman", 35), command=self.root.destroy)
+        new_window_in_exit.pack(side="right", expand=True)
 
     def window_inventory(self):
         open_window_inventory = tk.Toplevel(self.root)
