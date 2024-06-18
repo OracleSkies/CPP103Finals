@@ -30,6 +30,19 @@ class DataManagement(DatabaseManagement):
         self.cursor.execute(sql_command, values)
         self.connection.commit()
 
+    def delete_inventory(self, barcode):
+        self.cursor.execute("DELETE FROM ITEMS WHERE barcode = ?", (barcode,))
+        self.connection.commit()
+
+class OutWindow(DatabaseManagement):
+    def __init__(self):
+        super().__init__()
+
+    def print_items(self):
+        self.cursor.execute("SELECT * FROM ITEMS")
+        rows = self.cursor.fetchall()
+        for row in rows:
+            print(row)
 
 def main():
     print("Input data")
@@ -42,12 +55,15 @@ def main():
     data_manager = DataManagement(barcode, brand_name, item_type, item_quantity, item_price)
     data_manager.create_items_table()  
     data_manager.insert_inventory()  
+
     print("Remove data")
     remove_barcode = int(input("Enter barcode to remove: "))
+    data_manager.delete_inventory(remove_barcode)
 
+    out_window = OutWindow()
+    out_window.print_items()
 
-
-    data_manager.connection.close()  
+    data_manager.connection.close()
 
 if __name__ == "__main__":
     main()
