@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk, messagebox
 import sqlite3
-from TuasonBE import DataManagement
+from TuasonBE import DatabaseManagement,DataManagement
 
 
-class GroceryApp():
+class GroceryApp(DatabaseManagement):
 
     def __init__(self, root):
+        super().__init__()
         self.root = root
         self.root.title("Grocery Store Inventory System")
         self.root.geometry("1000x800")
@@ -164,13 +165,21 @@ class GroceryApp():
         table_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
 
         columns = ("Name", "Barcode", "Price", "Type", "Quantity")
-        tree = ttk.Treeview(table_frame, columns=columns, show="headings")
+        self.tree = ttk.Treeview(table_frame, columns=columns, show="headings")
 
         for col in columns:
-            tree.heading(col, text=col)
-            tree.column(col, width=100)
+            self.tree.heading(col, text=col)
+            self.tree.column(col, width=100)
 
-        tree.pack(fill=tk.BOTH, expand=True)
+        self.tree.pack(fill=tk.BOTH, expand=True)
+        self.sync_database()
+
+    def sync_database(self):
+        self.tree.delete(*self.tree.get_children())
+        self.cursor.execute("SELECT * FROM ITEMS")
+        rows = self.cursor.fetchall()
+        for row in rows:
+            self.tree.insert("", tk.END, values=row)
 
     def window_out(self):
         open_window_out = tk.Toplevel(self.root)
