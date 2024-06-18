@@ -43,6 +43,9 @@ class GroceryApp:
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
         
         
+        
+        
+        
         username_entry = tk.Entry(signUP_window, font = ('Times New Roman', 20))
         username_entry.place(relx = .47, rely = .27, relheight = .05, relwidth= .37)
         
@@ -57,6 +60,8 @@ class GroceryApp:
         
         sumbit_button = tk.Button(signUP_window,text = "Submit" ,font = ('Telegraf', 20, "bold"), bg = "#042C40", fg = "white", borderwidth= 0)
         sumbit_button.place(relx = .56, rely = .78, relheight = .05, relwidth= .15)
+        
+        
         
         
         
