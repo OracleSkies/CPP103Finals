@@ -1,21 +1,10 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk, messagebox
 import sqlite3
-from TuasonBE import DatabaseManagement
+from TuasonBE import DataManagement
 
-class DatabaseManagement:
-    def __init__(self):
-        self.connection = sqlite3.connect("ITEM_DATABASE.db")
-        self.cursor = self.connection.cursor()
 
-class DataManagement(DatabaseManagement):
-    def __init__(self, barcode, brand_name, item_type, item_quantity, item_price):
-        super().__init__()
-        self.barcode = barcode
-        self.brand_name = brand_name
-        self.item_type = item_type
-        self.item_quantity = item_quantity
-        self.item_price = item_price
+class GroceryApp():
 
     def __init__(self, root):
         self.root = root
@@ -218,20 +207,18 @@ class DataManagement(DatabaseManagement):
 
         confirm_button = tk.Button(open_window_out, text="CONFIRM", font=("Roboto", 16), borderwidth=3, bg="#00CED1", fg="White", width=10)
         confirm_button.pack(side=tk.RIGHT, padx=20, pady=20)
+    
+    def insert_inventory(self):
+        sql_command = "INSERT INTO ITEMS (barcode, brand_name, item_type, item_quantity, item_price) VALUES (?, ?, ?, ?, ?)"
+        values = (self.barcode, self.brand_name, self.item_type, self.item_quantity, self.item_price)
+        self.cursor.execute(sql_command, values)
+        self.connection.commit()
 
     def confirm_inventory_in(self):
-        dataManagement = data_management(self.new_window_in_barcode_entry.get(), self.new_window_in_name_entry.get(), self.new_window_in_type_entry.get(),self.new_window_in_quantity_entry.get(), self.new_window_in_price_entry.get())
-        dataManagement.insert_Inventory_In_Data()
+        dataManagement = DataManagement(self.new_window_in_barcode_entry.get(), self.new_window_in_name_entry.get(), self.new_window_in_type_entry.get(),self.new_window_in_quantity_entry.get(), self.new_window_in_price_entry.get())
+        dataManagement.insert_inventory()
         messagebox.showinfo("Inventory In", "Item added to invetory")
         self.open_window_in.destroy()
-
-
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
