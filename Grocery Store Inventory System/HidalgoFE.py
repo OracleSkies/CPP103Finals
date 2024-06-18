@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk
 
+
 class GroceryApp:
     def __init__(self, root):
         self.root = root
@@ -128,15 +129,15 @@ class GroceryApp:
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
         open_window_invetory.resizable(True, True)
 
-        # Inventory UI
+        
         main_frame = tk.Frame(open_window_invetory)
         main_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Title
+        
         title_label = tk.Label(main_frame, text="INVENTORY", bg='#add8e6', font=("Helvetica", 16, "bold"))
         title_label.pack(pady=10)
 
-        # Search Bar Frame
+        
         search_frame = tk.Frame(main_frame, bg='#add8e6')
         search_frame.pack(fill=tk.X, padx=20, pady=5)
 
@@ -149,7 +150,7 @@ class GroceryApp:
         search_button = tk.Button(search_frame, text="🔍")
         search_button.pack(side=tk.LEFT)
 
-        # Table Frame
+        
         table_frame = tk.Frame(main_frame)
         table_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
 
@@ -172,7 +173,7 @@ class GroceryApp:
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
         open_window_out.resizable(True, True)
 
-        # UI Elements
+        
         search_label = tk.Label(open_window_out, text="SEARCH", font=("Arial", 14), fg="white", bg="light blue")
         search_label.pack(pady=20)
 
@@ -182,7 +183,7 @@ class GroceryApp:
         table_frame = tk.Frame(open_window_out, bg="#000029")
         table_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
 
-        # Table Headers
+        
         headers = ["NAME", "BARCODE", "TYPE", "PRICE", "QUANTITY"]
         for i, header in enumerate(headers):
             label = tk.Label(table_frame, text=header, font=("Arial", 12), fg="white", bg="#000029", width=15, anchor="center")
@@ -191,7 +192,7 @@ class GroceryApp:
        
        
 
-        # Buttons
+        
         back_button = tk.Button(open_window_out, text="BACK", font=("Roboto", 16), borderwidth=3, bg="#00CED1", fg="White", width=10 )
         back_button.pack(side=tk.LEFT, padx=20, pady=20)
 
