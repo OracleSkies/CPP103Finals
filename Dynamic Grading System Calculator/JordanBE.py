@@ -1,20 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import PhotoImage
+from PIL import ImageTk, Image
 
-class WindowBackground:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Window Background")
-        self.root.geometry("1000x800")
+class WindowBackground(tk.Tk):
+    def __init__(self, screenName: str | None = None, baseName: str | None = None, className: str = "Tk", useTk: bool = True, sync: bool = False, use: str | None = None) -> None:
+        super().__init__(screenName, baseName, className, useTk, sync, use)
+        self.title("Window Background")
+        self.geometry("1980x1080")
 
-        bg_image_path = "window_background.png"
-        self.open_window = PhotoImage(file="window background.png")
-        
-        self.bg_label = ttk.Label(self.root, image=self.open_window)
-        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        self.background_Image = ImageTk.PhotoImage(Image.open("window background.png"))
+        self.bg_Image_Label = tk.Label(self, image=self.background_Image)
+        self.bg_Image_Label.pack()
 
-class texts:
+
+"""class texts:
     def __init__(self,root):
         self.root = root
     
@@ -23,37 +23,8 @@ class texts:
         home = ttk.Button.pack_forget()
                 
       
-        entry = tk.Label(root, text = home,font = ("Signataria,20,Italic"),command = home )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        entry = tk.Label(root, text = home,font = ("Signataria,20,Italic"),command = home )"""
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = WindowBackground(root)
-    root.mainloop()
+    window = WindowBackground()
+    window.mainloop()
