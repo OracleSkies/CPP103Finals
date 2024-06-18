@@ -23,5 +23,37 @@ class texts:
         home = ttk.Button.pack_forget()
                 
       
-        entry = tk.Label(root, text = home,font = ("Signataria,20,Italic"),command = home    )
+        entry = tk.Label(root, text = home,font = ("Signataria,20,Italic"),command = home )
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = WindowBackground(root)
+    root.mainloop()
