@@ -63,20 +63,21 @@ class Login_and_Register_Window:
         register.register_Account()
     
     def login(self):
-        login = Login_System(self.entry_username.get(), self.entry_password.get(), self.root, command = self.HomeDashBoard)
+        login = Login_System(self.entry_username.get(), self.entry_password.get(), self.root)
         login.login_Account()
-        
-        
+        self.HomeDashBoard()
+
         
     def HomeDashBoard(self):
-        self.Home_window = tk.Toplevel(self.root)
+        self.Home_window = tk.Tk()
         self.Home_window.geometry('1560x1000')
         self.Home_window.resizable(False, False)
         
-        self.bg_image_path = "home dashboard.png"
+        self.bg_image_path = "home dashboard.jpg"
         self.signUP_window.bg = PhotoImage(file=self.bg_image_path)
         self.bg_label = tk.Label(self.Home_window, image=self.Home_window.bg)
-        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)   
+        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        self.Home_window.mainloop()   
   
     
     
