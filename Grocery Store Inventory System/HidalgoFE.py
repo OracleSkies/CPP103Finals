@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import PhotoImage, ttk
+from tkinter import PhotoImage, ttk, messagebox
+from TuasonBE import data_management
 
 
 class GroceryApp:
@@ -52,8 +53,6 @@ class GroceryApp:
         
         
         
-        
-
     def open_new_window(self):
         username = self.user_entry_var.get()
         password = self.password_entry_var.get()
@@ -81,60 +80,63 @@ class GroceryApp:
             new_window_out.pack(pady=70)
 
     def window_in(self):
-        open_window_in = tk.Toplevel(self.root)
-        open_window_in.title("IN WINDOW")
-        open_window_in.geometry("1000x800")
-        bg_image_path = "main.png"
-        open_window_in.bg = PhotoImage(file=bg_image_path)
-        bg_label = tk.Label(open_window_in, image=open_window_in.bg)
-        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-        open_window_in.resizable(True, True)
+        self.open_window_in = tk.Toplevel(self.root)
+        self.open_window_in.title("IN WINDOW")
+        self.open_window_in.geometry("1000x800")
+        self.bg_image_path = "main.png"
+        self.open_window_in.bg = PhotoImage(file=self.bg_image_path)
+        self.bg_label = tk.Label(self.open_window_in, image=self.open_window_in.bg)
+        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        self.open_window_in.resizable(True, True)
 
-        new_window_in_label = tk.Label(open_window_in, text="IN", font=("Times New Roman", 40), width=10)
-        new_window_in_label.pack()
+        self.new_window_in_label = tk.Label(self.open_window_in, text="IN", font=("Times New Roman", 40), width=10)
+        self.new_window_in_label.pack()
 
-        new_window_in_type = tk.Label(open_window_in, text="TYPE", font=("Times New Roman", 35))
-        new_window_in_type.pack(pady=20)
+        self.new_window_in_type = tk.Label(self.open_window_in, text="TYPE", font=("Times New Roman", 35))
+        self.new_window_in_type.pack(pady=20)
 
-        new_window_in_type_entry = tk.Entry(open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
-        new_window_in_type_entry.pack()
+        self.new_window_in_type_entry = tk.Entry(self.open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
+        self.new_window_in_type_entry.pack()
 
-        new_window_in_quantity = tk.Label(open_window_in, text="QUANTITY", font=("Times New Roman", 35))
-        new_window_in_quantity.pack(pady=20)
+        self.new_window_in_quantity = tk.Label(self.open_window_in, text="QUANTITY", font=("Times New Roman", 35))
+        self.new_window_in_quantity.pack(pady=20)
 
-        new_window_in_quantity_entry = tk.Entry(open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
-        new_window_in_quantity_entry.pack()
+        self.new_window_in_quantity_entry = tk.Entry(self.open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
+        self.new_window_in_quantity_entry.pack()
 
-        new_window_in_price = tk.Label(open_window_in, text="PRICE", font=("Times New Roman", 35))
-        new_window_in_price.pack(pady=20)
+        self.new_window_in_price = tk.Label(self.open_window_in, text="PRICE", font=("Times New Roman", 35))
+        self.new_window_in_price.pack(pady=20)
 
-        new_window_in_price_entry = tk.Entry(open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
-        new_window_in_price_entry.pack()
+        self.new_window_in_price_entry = tk.Entry(self.open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
+        self.new_window_in_price_entry.pack()
 
-        new_window_in_name = tk.Label(open_window_in, text="NAME", font=("Times New Roman", 35))
-        new_window_in_name.pack(pady=20)
+        self.new_window_in_name = tk.Label(self.open_window_in, text="NAME", font=("Times New Roman", 35))
+        self.new_window_in_name.pack(pady=20)
 
-        new_window_in_name_entry = tk.Entry(open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
-        new_window_in_name_entry.pack()
+        self.new_window_in_name_entry = tk.Entry(self.open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
+        self.new_window_in_name_entry.pack()
 
-        new_window_in_barcode = tk.Label(open_window_in, text="BARCODE", font=("Times New Roman", 35))
-        new_window_in_barcode.pack(pady=20)
+        self.new_window_in_barcode = tk.Label(self.open_window_in, text="BARCODE", font=("Times New Roman", 35))
+        self.new_window_in_barcode.pack(pady=20)
 
-        new_window_in_barcode_entry = tk.Entry(open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
-        new_window_in_barcode_entry.pack()
+        self.new_window_in_barcode_entry = tk.Entry(self.open_window_in, fg="Black", font=("Times New Roman", 30), width=15)
+        self.new_window_in_barcode_entry.pack()
+
+        self.confirm_button = tk.Button(self.open_window_in, text="Confirm", font=("Times New Roman", 30), command = self.confirm_inventory_in,width=15)
+        self.confirm_button.pack(pady=20)
 
     def window_inventory(self):
-        open_window_invetory = tk.Toplevel(self.root)
-        open_window_invetory.title("OUT WINDOW")
-        open_window_invetory.geometry("1000x800")
+        self.open_window_invetory = tk.Toplevel(self.root)
+        self.open_window_invetory.title("OUT WINDOW")
+        self.open_window_invetory.geometry("1000x800")
         bg_image_path = "main.png"
-        open_window_invetory.bg = PhotoImage(file=bg_image_path)
-        bg_label = tk.Label(open_window_invetory, image=open_window_invetory.bg)
+        self.open_window_invetory.bg = PhotoImage(file=bg_image_path)
+        bg_label = tk.Label(self.open_window_invetory, image=self.open_window_invetory.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-        open_window_invetory.resizable(True, True)
+        self.open_window_invetory.resizable(True, True)
 
         
-        main_frame = tk.Frame(open_window_invetory)
+        main_frame = tk.Frame(self.open_window_invetory)
         main_frame.pack(fill=tk.BOTH, expand=True)
 
         
@@ -203,6 +205,11 @@ class GroceryApp:
         confirm_button = tk.Button(open_window_out, text="CONFIRM", font=("Roboto", 16), borderwidth=3, bg="#00CED1", fg="White", width=10)
         confirm_button.pack(side=tk.RIGHT, padx=20, pady=20)
 
+    def confirm_inventory_in(self):
+        dataManagement = data_management(self.new_window_in_barcode_entry.get(), self.new_window_in_name_entry.get(), self.new_window_in_type_entry.get(),self.new_window_in_quantity_entry.get(), self.new_window_in_price_entry.get())
+        dataManagement.insert_Inventory_In_Data()
+        messagebox.showinfo("Inventory In", "Item added to invetory")
+        self.open_window_in.destroy()
 
 if __name__ == "__main__":
     root = tk.Tk()

@@ -1,34 +1,34 @@
 import sqlite3
 
-connection = sqlite3.connect("ITEM_DATABASE.db")
-cursor = connection.cursor()
+class database_management:
+    def __init__(self):
+        self.connection = sqlite3.connect("ITEM_DATABASE.db")
+        self.cursor = self.connection.cursor()
 
+class data_management(database_management):
 
-cursor.execute(""" CREATE TABLE IF NOT EXISTS ITEMS ( barcode INTEGER PRIMARY KEY,brand_name TEXT,item_type TEXT,item_quantity INTEGER,item_price INTEGER)""")
+    def __init__(self,barcode, brand_name, item_type, item_quantity, item_price):
+        super().__init__()
+        self.barcode = barcode
+        self.brand_name = brand_name
+        self.item_type = item_type
+        self.item_quantity = item_quantity
+        self.item_price = item_price
 
-class user_input:
-
-    def __init__(self,cursor):
-        self.cursor = cursor
-        
-
-    def insertion(self,data_input):
-        items = "INSERT INTO ITEMS (barcode, brand_name, item_type, item_quantity, item_price) VALUES (?, ?, ?, ?, ?)"
-        cursor.execute(items, data_input)
-        connection.commit()  
-
-    def input_data(self):
-        Barcode = int(input("Enter barcode: "))
-        Brand_name = input("Enter brand name: ")
-        Item_type = input("Enter item type: ")
-        Item_quantity = int(input("Enter quantity: "))
-        Item_price = int(input("Enter price: "))
-        
-        data = (Barcode, Brand_name, Item_type, Item_quantity, Item_price)
-        return data
+    def insert_Inventory_In_Data(self):
+        self.cursor.execute(""" CREATE TABLE IF NOT EXISTS ITEMS ( id INTEGER PRIMARY KEY,\
+                            barcode INTEGER,\
+                            brand_name TEXT,\
+                            item_type TEXT,\
+                            item_quantity INTEGER,\
+                            item_price INTEGER)""")
+        sqlcommand = "INSERT INTO ITEMS (barcode, brand_name, item_type, item_quantity, item_price) VALUES (?, ?, ?, ?, ?)"
+        values = (self.barcode, self.brand_name, self.item_type, self.item_quantity, self.item_price)
+        self.cursor.execute(sqlcommand, values)
+        self.connection.commit()  
     
     
-class edit:
+"""class edit:
     def __init__(self,cursor):
         self.cursor = cursor
     
@@ -41,13 +41,13 @@ class edit:
             print(f"Item{barcode},removed")
         connection.commit()  
 
-
+"""
     
 
         
 
 
-print("Input data")
+"""print("Input data")
 user = user_input(cursor)
 
 item_inserted = user.input_data()
@@ -61,4 +61,4 @@ editor = edit(cursor)
 editor.delete_row(remove_barcode)
 
 
-connection.close()
+connection.close()"""
