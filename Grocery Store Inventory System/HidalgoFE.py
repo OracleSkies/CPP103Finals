@@ -1,9 +1,22 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk, messagebox
-from TuasonBE import data_management
+import sqlite3
+from TuasonBE import DatabaseManagement
 
+class DatabaseManagement:
+    def __init__(self):
+        self.connection = sqlite3.connect("ITEM_DATABASE.db")
+        self.cursor = self.connection.cursor()
 
-class GroceryApp:
+class DataManagement(DatabaseManagement):
+    def __init__(self, barcode, brand_name, item_type, item_quantity, item_price):
+        super().__init__()
+        self.barcode = barcode
+        self.brand_name = brand_name
+        self.item_type = item_type
+        self.item_quantity = item_quantity
+        self.item_price = item_price
+
     def __init__(self, root):
         self.root = root
         self.root.title("Grocery Store Inventory System")
@@ -39,6 +52,7 @@ class GroceryApp:
 
         self.sign_up_button = tk.Button(root, text="Sign Up", font=("Roboto", 16), borderwidth=3, command=self.sign_up)
         self.sign_up_button.pack(pady=20)
+
 
     def sign_up(self):
         sign_up_window = tk.Toplevel(self.root)
@@ -210,6 +224,15 @@ class GroceryApp:
         dataManagement.insert_Inventory_In_Data()
         messagebox.showinfo("Inventory In", "Item added to invetory")
         self.open_window_in.destroy()
+
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()
