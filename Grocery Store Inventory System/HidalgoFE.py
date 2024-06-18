@@ -49,6 +49,10 @@ class GroceryApp:
         sign_up_window.bg = PhotoImage(file=bg_image_path)
         bg_label = tk.Label(sign_up_window, image=sign_up_window.bg)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        
+        
+        
+        
 
     def open_new_window(self):
         username = self.user_entry_var.get()
