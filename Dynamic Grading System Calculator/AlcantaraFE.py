@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import PhotoImage
 
 # Import statements for your custom modules
-# from DonascoBE import Registration_System, Login_System
+from DonascoBE import Registration_System, Login_System
 
 
 class LoginAndRegisterWindow:
@@ -124,8 +124,8 @@ class LoginAndRegisterWindow:
         grade_entry_subject = tk.Entry(self.grade_window, font = ("Times New Roman", 30))
         grade_entry_subject.place(relx=.43, rely=.250, relheight=.05, relwidth=.31)
         
-        grade_entry_percentage = tk.Entry(self.grade_window, font = ("Times New Roman", 30))
-        grade_entry_percentage.place(relx=.43, rely=.320, relheight=.05, relwidth=.31)
+        grade_entry_criteria = tk.Entry(self.grade_window, font = ("Times New Roman", 30))
+        grade_entry_criteria.place(relx=.43, rely=.320, relheight=.05, relwidth=.31)
         
         
         grade_entry_percentage = tk.Entry(self.grade_window, font = ("Times New Roman", 30))
