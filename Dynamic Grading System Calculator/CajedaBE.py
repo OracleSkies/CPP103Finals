@@ -2,368 +2,369 @@ import tkinter as tk
 from tkinter import messagebox
 import sqlite3
 
-class GradingSystemApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("A Dynamic Grading System Application")
+class DatabaseManager:
+    def __init__(self):
+        self.conn = sqlite3.connect("grading_system.db")
+        self.cursor = self.conn.cursor()
+        self.create_tables()
+        self.update_schema_if_needed()
+
+    def create_tables(self):
+        self.cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS users (
+                username TEXT PRIMARY KEY,
+                password TEXT NOT NULL
+            )
+            """
+        )
+        self.cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS subjects (
+                subject TEXT PRIMARY KEY
+            )
+            """
+        )
+        self.cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS criterias (
+                subject TEXT,
+                criteria TEXT,
+                percentage INTEGER,
+                PRIMARY KEY (subject, criteria),
+                FOREIGN KEY (subject) REFERENCES subjects(subject)
+            )
+            """
+        )
+        self.cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS students (
+                student_number TEXT PRIMARY KEY,
+                name TEXT,
+                lastname TEXT,
+                section TEXT,
+                subject TEXT,
+                homework REAL,
+                seatwork REAL,
+                quizzes REAL,
+                exams REAL,
+                FOREIGN KEY (subject) REFERENCES subjects(subject)
+            )
+            """
+        )
+        self.conn.commit()
+
+    def update_schema_if_needed(self):
+        # Check if the 'students' table has the correct structure
+        self.cursor.execute("PRAGMA table_info(students)")
+        columns = [info[1] for info in self.cursor.fetchall()]
+
+        required_columns = ["subject", "lastname"]
+        for col in required_columns:
+            if col not in columns:
+                self.cursor.execute(f"ALTER TABLE students ADD COLUMN {col} TEXT")
+                self.conn.commit()
+
+    def execute_query(self, query, params=()):
+        self.cursor.execute(query, params)
+        self.conn.commit()
+
+    def fetch_one(self, query, params=()):
+        self.cursor.execute(query, params)
+        return self.cursor.fetchone()
+
+    def fetch_all(self, query, params=()):
+        self.cursor.execute(query, params)
+        return self.cursor.fetchall()
+
+class StudentGradingSystem:
+    def __init__(self):
+        self.db = DatabaseManager()
+        self.root = tk.Tk()
+        self.root.title("Student Grading System")
+
         self.username = tk.StringVar()
         self.password = tk.StringVar()
-        self.students = {}
-        self.criterias = {}
+        self.subject_name = tk.StringVar()
+        self.search_subject_name = tk.StringVar()
 
-        # Connect to the SQLite3 database
-        self.conn = sqlite3.connect('grades.db')
-        self.cursor = self.conn.cursor()
-
-        # Create the users table if it doesn't exist
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, password TEXT)''')
-
-        # Create the students table if it doesn't exist
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS students (student_number TEXT PRIMARY KEY, name TEXT, lastname TEXT, section TEXT, subject TEXT, homework REAL, seatwork REAL, quizzes REAL, exams REAL)''')
-
-        # Create the criterias table if it doesn't exist
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS criterias (subject TEXT, criteria TEXT, percentage REAL, PRIMARY KEY (subject, criteria))''')
+        self.criteria_entries = []
+        self.previous_frame = None
+        self.previous_frame_function = None
 
         self.create_login_frame()
 
     def create_login_frame(self):
         self.clear_frame()
 
-        """
-        ===================================================
-        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
-        ===================================================
-        """
         self.login_frame = tk.Frame(self.root)
         self.login_frame.pack()
+        self.previous_frame_function = None  # No previous frame before login
 
         tk.Label(self.login_frame, text="Username:").grid(row=0, column=0)
         tk.Entry(self.login_frame, textvariable=self.username).grid(row=0, column=1)
         tk.Label(self.login_frame, text="Password:").grid(row=1, column=0)
         tk.Entry(self.login_frame, textvariable=self.password, show='*').grid(row=1, column=1)
+
         tk.Button(self.login_frame, text="Login", command=self.login).grid(row=2, column=0, columnspan=2)
         tk.Button(self.login_frame, text="Register", command=self.create_register_frame).grid(row=3, column=0, columnspan=2)
 
     def create_register_frame(self):
         self.clear_frame()
-        """
-        ===================================================
-        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
-        ===================================================
-        """
-        
+
         self.register_frame = tk.Frame(self.root)
         self.register_frame.pack()
+        self.previous_frame_function = self.create_login_frame
 
         tk.Label(self.register_frame, text="Username:").grid(row=0, column=0)
         tk.Entry(self.register_frame, textvariable=self.username).grid(row=0, column=1)
         tk.Label(self.register_frame, text="Password:").grid(row=1, column=0)
         tk.Entry(self.register_frame, textvariable=self.password, show='*').grid(row=1, column=1)
-        tk.Button(self.register_frame, text="Confirm", command=self.register).grid(row=2, column=0, columnspan=2)
-        tk.Button(self.register_frame, text="Back", command=self.create_login_frame).grid(row=3, column=0, columnspan=2)
+
+        tk.Button(self.register_frame, text="Register", command=self.register).grid(row=2, column=0, columnspan=2)
+        tk.Button(self.register_frame, text="Back", command=self.go_back).grid(row=3, column=0, columnspan=2)
 
     def create_dashboard(self):
         self.clear_frame()
-        """
-        ===================================================
-        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
-        ===================================================
-        """
+
         self.dashboard_frame = tk.Frame(self.root)
         self.dashboard_frame.pack()
+        self.previous_frame_function = None  # Dashboard is the main frame
 
-        tk.Button(self.dashboard_frame, text="Create Grading System", command=self.create_subject_frame).grid(row=0, column=0)
-        tk.Button(self.dashboard_frame, text="Search Subject", command=self.create_search_subject_frame).grid(row=1, column=0)
-        tk.Button(self.dashboard_frame, text="Logout", command=self.logout).grid(row=2, column=0)
+        tk.Label(self.dashboard_frame, text="Welcome to the Student Grading System").grid(row=0, column=0, columnspan=2)
+        tk.Button(self.dashboard_frame, text="Add Subject", command=self.add_subject).grid(row=1, column=0)
+        tk.Button(self.dashboard_frame, text="Search Subject", command=self.create_search_subject_frame).grid(row=1, column=1)
+        tk.Button(self.dashboard_frame, text="Logout", command=self.logout).grid(row=2, column=0, columnspan=2)
 
-    def create_subject_frame(self):
+    def add_subject(self):
         self.clear_frame()
-        """
-        ===================================================
-        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
-        ===================================================
-        """
-        self.subject_frame = tk.Frame(self.root)
-        self.subject_frame.pack()
 
-        self.subject_name = tk.StringVar()
+        self.add_subject_frame = tk.Frame(self.root)
+        self.add_subject_frame.pack()
+        self.previous_frame_function = self.create_dashboard
 
-        tk.Label(self.subject_frame, text="Subject:").grid(row=0, column=0)
-        tk.Entry(self.subject_frame, textvariable=self.subject_name).grid(row=0, column=1)
+        tk.Label(self.add_subject_frame, text="Subject Name:").grid(row=0, column=0)
+        tk.Entry(self.add_subject_frame, textvariable=self.subject_name).grid(row=0, column=1)
 
-        self.criteria_frame = tk.Frame(self.subject_frame)
-        self.criteria_frame.grid(row=1, column=0, columnspan=2)
+        tk.Button(self.add_subject_frame, text="Add Subject", command=self.save_subject_name).grid(row=1, column=0, columnspan=2)
+        tk.Button(self.add_subject_frame, text="Back", command=self.go_back).grid(row=2, column=0, columnspan=2)
 
-        self.criteria_entries = []
-
-        self.add_criteria_button = tk.Button(self.subject_frame, text="Add Criteria", command=lambda: self.add_criteria_entry(self.criteria_frame))
-        self.add_criteria_button.grid(row=2, column=0, columnspan=2)
-        self.confirm_button = tk.Button(self.subject_frame, text="Confirm", command=self.save_subject)
-        self.confirm_button.grid(row=3, column=0, columnspan=2)
-        self.back_button = tk.Button(self.subject_frame, text="Back", command=self.create_dashboard)
-        self.back_button.grid(row=4, column=0, columnspan=2)
-        
-        self.add_criteria_entry(self.criteria_frame)  # Add the first criteria entry
-
-    def add_criteria_entry(self, frame):
-        row = len(self.criteria_entries)
-        criteria_name = tk.StringVar()
-        percentage = tk.IntVar()
-        self.criteria_entries.append((criteria_name, percentage))
-
-        """
-        ===================================================
-        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
-        ===================================================
-        """
-
-        tk.Label(frame, text=f"Criteria {row + 1}:").grid(row=row, column=0)
-        tk.Entry(frame, textvariable=criteria_name).grid(row=row, column=1)
-        tk.Label(frame, text="Percentage:").grid(row=row, column=2)
-        tk.Entry(frame, textvariable=percentage).grid(row=row, column=3)
-        remove_button_state = "normal" if len(self.criteria_entries) > 1 else "disabled"
-        tk.Button(frame, text="Remove", command=lambda idx=row: self.remove_criteria_entry(idx, frame), state=remove_button_state).grid(row=row, column=4)
-
-    def remove_criteria_entry(self, index, frame):
-        if len(self.criteria_entries) <= 1:
-            messagebox.showwarning("Warning", "At least one criteria must be present.")
-            return
-        # Remove criteria entry from the list
-        self.criteria_entries.pop(index)
-        self.rebuild_criteria_entries(frame)
-
-    def rebuild_criteria_entries(self, frame):
-        for widget in frame.winfo_children():
-            widget.destroy()
-        
-        # Rebuild criteria entries
-        for idx, (criteria_name, percentage) in enumerate(self.criteria_entries):
-            tk.Label(frame, text=f"Criteria {idx + 1}:").grid(row=idx, column=0)
-            tk.Entry(frame, textvariable=criteria_name).grid(row=idx, column=1)
-            tk.Label(frame, text="Percentage:").grid(row=idx, column=2)
-            tk.Entry(frame, textvariable=percentage).grid(row=idx, column=3)
-            remove_button_state = "normal" if len(self.criteria_entries) > 1 else "disabled"
-            tk.Button(frame, text="Remove", command=lambda idx=idx: self.remove_criteria_entry(idx, frame), state=remove_button_state).grid(row=idx, column=4)
+    def save_subject_name(self):
+        subject_name = self.subject_name.get()
+        if subject_name:
+            self.db.execute_query("INSERT OR REPLACE INTO subjects (subject) VALUES (?)", (subject_name,))
+            messagebox.showinfo("Success", "Subject added successfully")
+            self.create_subject_details_frame(subject_name)
+        else:
+            messagebox.showerror("Error", "Subject name cannot be empty")
 
     def create_search_subject_frame(self):
-
-        """
-        ===================================================
-        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
-        ===================================================
-        """
-        
         self.clear_frame()
 
-        self.search_frame = tk.Frame(self.root)
-        self.search_frame.pack()
+        self.search_subject_frame = tk.Frame(self.root)
+        self.search_subject_frame.pack()
+        self.previous_frame_function = self.create_dashboard
 
-        tk.Label(self.search_frame, text="Subject:").grid(row=0, column=0)
-        self.search_subject_name = tk.StringVar()
-        tk.Entry(self.search_frame, textvariable=self.search_subject_name).grid(row=0, column=1)
-        tk.Button(self.search_frame, text="Search", command=self.search_subject).grid(row=1, column=0, columnspan=2)
-        tk.Button(self.search_frame, text="Back", command=self.create_dashboard).grid(row=2, column=0, columnspan=2)
-        tk.Button(self.search_frame, text="Logout", command=self.logout).grid(row=3, column=0, columnspan=2)
+        tk.Label(self.search_subject_frame, text="Search Subject:").grid(row=0, column=0)
+        tk.Entry(self.search_subject_frame, textvariable=self.search_subject_name).grid(row=0, column=1)
+
+        tk.Button(self.search_subject_frame, text="Search", command=self.search_subject).grid(row=1, column=0, columnspan=2)
+        tk.Button(self.search_subject_frame, text="Back", command=self.go_back).grid(row=2, column=0, columnspan=2)
 
     def create_subject_details_frame(self, subject_name):
-
-        """
-        ===================================================
-        SA FRONT END CLASS DAPAT MAKIKITA ANG METHOD NA ITO
-        ===================================================
-        """
-
         self.clear_frame()
-        
+
         self.subject_details_frame = tk.Frame(self.root)
         self.subject_details_frame.pack()
+        self.previous_frame_function = self.create_dashboard
 
-        tk.Label(self.subject_details_frame, text=f"Subject: {subject_name}").grid(row=0, column=0)
-        tk.Button(self.subject_details_frame, text="Show Criteria", command=lambda: self.show_criteria(subject_name)).grid(row=1, column=0)
-        tk.Button(self.subject_details_frame, text="Student Records", command=lambda: self.show_student_records(subject_name)).grid(row=2, column=0)
-        tk.Button(self.subject_details_frame, text="Add Students", command=lambda: self.add_student(subject_name)).grid(row=3, column=0)
-        tk.Button(self.subject_details_frame, text="Edit Criteria", command=lambda: self.edit_criteria(subject_name)).grid(row=4, column=0)
-        tk.Button(self.subject_details_frame, text="Back", command=self.create_search_subject_frame).grid(row=5, column=0)
-        tk.Button(self.subject_details_frame, text="Logout", command=self.logout).grid(row=6, column=0)
+        tk.Label(self.subject_details_frame, text=f"Subject: {subject_name}").grid(row=0, column=0, columnspan=2)
+        tk.Button(self.subject_details_frame, text="Manage Criteria", command=lambda: self.manage_criteria(subject_name)).grid(row=1, column=0)
+        tk.Button(self.subject_details_frame, text="Show Criteria", command=lambda: self.show_criteria(subject_name)).grid(row=1, column=1)
+        tk.Button(self.subject_details_frame, text="Show Student Records", command=lambda: self.show_student_records(subject_name)).grid(row=2, column=0)
+        tk.Button(self.subject_details_frame, text="Add Student", command=lambda: self.add_student(subject_name)).grid(row=2, column=1)
+        tk.Button(self.subject_details_frame, text="Back", command=self.go_back).grid(row=3, column=0, columnspan=2)
+
+    def manage_criteria(self, subject_name):
+        self.clear_frame()
+
+        self.criteria_frame = tk.Frame(self.root)
+        self.criteria_frame.pack()
+        self.previous_frame_function = lambda: self.create_subject_details_frame(subject_name)
+
+        self.subject_name = tk.StringVar(value=subject_name)
+
+        tk.Label(self.criteria_frame, text=f"Subject: {subject_name}").grid(row=0, column=0, columnspan=3)
+
+        # Load existing criteria from database
+        rows = self.db.fetch_all("SELECT criteria, percentage FROM criterias WHERE subject=?", (subject_name,))
+
+        self.criteria_entries = [(tk.StringVar(value=row[0]), tk.IntVar(value=row[1])) for row in rows]
+        self.criteria_entries.append((tk.StringVar(), tk.IntVar()))  # Add an empty entry for new criteria
+
+        self.update_criteria_display(self.criteria_frame)
+
+    def update_criteria_display(self, frame):
+        for widget in frame.winfo_children():
+            widget.destroy()
+
+        tk.Label(frame, text=f"Subject: {self.subject_name.get()}").grid(row=0, column=0, columnspan=3)
+
+        for i, (criteria_var, percentage_var) in enumerate(self.criteria_entries):
+            tk.Entry(frame, textvariable=criteria_var).grid(row=i + 1, column=0)
+            tk.Entry(frame, textvariable=percentage_var).grid(row=i + 1, column=1)
+            tk.Button(frame, text="Delete", command=lambda i=i: self.delete_criteria(i)).grid(row=i + 1, column=2)
+
+        if len(self.criteria_entries) < 7:  # Allow up to 6 criteria entries
+            tk.Button(frame, text="Add Criteria", command=self.add_criteria).grid(row=len(self.criteria_entries) + 1, column=0, columnspan=3)
+        tk.Button(frame, text="Save", command=self.save_criteria).grid(row=len(self.criteria_entries) + 2, column=0, columnspan=3)
+        tk.Button(frame, text="Back", command=self.go_back).grid(row=len(self.criteria_entries) + 3, column=0, columnspan=3)
+
+    def add_criteria(self):
+        if len(self.criteria_entries) < 7:
+            self.criteria_entries.append((tk.StringVar(), tk.IntVar()))
+            self.update_criteria_display(self.criteria_frame)
+
+    def delete_criteria(self, index):
+        del self.criteria_entries[index]
+        self.update_criteria_display(self.criteria_frame)
+
+    def save_criteria(self):
+        subject_name = self.subject_name.get()
+        total_percentage = sum(var.get() for _, var in self.criteria_entries)
+
+        if total_percentage != 100:
+            messagebox.showerror("Error", "The total percentage of all criteria must equal 100")
+            return
+
+        self.db.execute_query("DELETE FROM criterias WHERE subject=?", (subject_name,))
+        for criteria_var, percentage_var in self.criteria_entries:
+            criteria = criteria_var.get()
+            percentage = percentage_var.get()
+            if criteria and percentage:
+                self.db.execute_query(
+                    "INSERT INTO criterias (subject, criteria, percentage) VALUES (?, ?, ?)",
+                    (subject_name, criteria, percentage),
+                )
+
+        messagebox.showinfo("Success", "Criteria saved successfully")
+        self.create_subject_details_frame(subject_name)
 
     def show_criteria(self, subject_name):
         self.clear_frame()
-        self.criteria_frame = tk.Frame(self.root)
-        self.criteria_frame.pack()
 
-        criteria = self.criterias.get(subject_name, {})
-        criteria_text = "\n".join([f"{key}: {value}%" for key, value in criteria.items()])
+        self.show_criteria_frame = tk.Frame(self.root)
+        self.show_criteria_frame.pack()
+        self.previous_frame_function = lambda: self.create_subject_details_frame(subject_name)
 
-        tk.Label(self.criteria_frame, text="Criteria:").grid(row=0, column=0)
-        tk.Label(self.criteria_frame, text=criteria_text).grid(row=1, column=0)
-        tk.Button(self.criteria_frame, text="Back", command=lambda: self.create_subject_details_frame(subject_name)).grid(row=2, column=0)
-        tk.Button(self.criteria_frame, text="Logout", command=self.logout).grid(row=3, column=0)
+        tk.Label(self.show_criteria_frame, text=f"Criteria for {subject_name}").grid(row=0, column=0, columnspan=2)
+
+        rows = self.db.fetch_all("SELECT criteria, percentage FROM criterias WHERE subject=?", (subject_name,))
+        for i, (criteria, percentage) in enumerate(rows):
+            tk.Label(self.show_criteria_frame, text=criteria).grid(row=i + 1, column=0)
+            tk.Label(self.show_criteria_frame, text=f"{percentage}%").grid(row=i + 1, column=1)
+
+        tk.Button(self.show_criteria_frame, text="Back", command=self.go_back).grid(row=len(rows) + 1, column=0, columnspan=2)
 
     def show_student_records(self, subject_name):
         self.clear_frame()
 
-        self.records_frame = tk.Frame(self.root)
-        self.records_frame.pack()
+        self.student_records_frame = tk.Frame(self.root)
+        self.student_records_frame.pack()
+        self.previous_frame_function = lambda: self.create_subject_details_frame(subject_name)
 
-        student_records = self.students.get(subject_name, [])
-        headers = ["Name", "Student Number", "Homework", "Seatwork", "Quizzes", "Exams"]
+        tk.Label(self.student_records_frame, text=f"Student Records for {subject_name}").grid(row=0, column=0, columnspan=5)
 
-        for idx, header in enumerate(headers):
-            tk.Label(self.records_frame, text=header, anchor='w').grid(row=0, column=idx, padx=5, pady=5, sticky='w')
+        rows = self.db.fetch_all("SELECT student_number, name, lastname, section, subject, homework, seatwork, quizzes, exams FROM students WHERE subject=?", (subject_name,))
+        headers = ["Student Number", "Name", "Last Name", "Section", "Homework", "Seatwork", "Quizzes", "Exams"]
 
-        for i, student_record in enumerate(student_records):
-            student_name = student_record[3]
-            student_lastname = student_record[4]
-            student_number = student_record[0]
-            homework = student_record[5]
-            seatwork = student_record[6]
-            quizzes = student_record[7]
-            exams = student_record[8]
+        for col, header in enumerate(headers):
+            tk.Label(self.student_records_frame, text=header).grid(row=1, column=col)
 
-            student_data = [
-                f"{student_name} {student_lastname}",
-                student_number,
-                homework,
-                seatwork,
-                quizzes,
-                exams
-            ]
+        for i, row in enumerate(rows):
+            for j, value in enumerate(row):
+                tk.Label(self.student_records_frame, text=value).grid(row=i + 2, column=j)
 
-            for idx, data in enumerate(student_data):
-                tk.Label(self.records_frame, text=data, anchor='w').grid(row=i + 1, column=idx, padx=5, pady=5, sticky='w')
-
-        tk.Button(self.records_frame, text="Back", command=lambda: self.create_subject_details_frame(subject_name)).grid(row=len(student_records) + 1, column=0, columnspan=len(headers), pady=10)
-        tk.Button(self.records_frame, text="Logout", command=self.logout).grid(row=len(student_records) + 2, column=0, columnspan=len(headers), pady=10)
+        tk.Button(self.student_records_frame, text="Back", command=self.go_back).grid(row=len(rows) + 2, column=0, columnspan=5)
 
     def add_student(self, subject_name):
         self.clear_frame()
+
         self.add_student_frame = tk.Frame(self.root)
         self.add_student_frame.pack()
+        self.previous_frame_function = lambda: self.create_subject_details_frame(subject_name)
 
         self.student_number = tk.StringVar()
-        self.name = tk.StringVar()
-        self.lastname = tk.StringVar()
-        self.section = tk.StringVar()
+        self.student_name = tk.StringVar()
+        self.student_lastname = tk.StringVar()
+        self.student_section = tk.StringVar()
+        self.homework = tk.DoubleVar()
+        self.seatwork = tk.DoubleVar()
+        self.quizzes = tk.DoubleVar()
+        self.exams = tk.DoubleVar()
 
         tk.Label(self.add_student_frame, text="Student Number:").grid(row=0, column=0)
         tk.Entry(self.add_student_frame, textvariable=self.student_number).grid(row=0, column=1)
         tk.Label(self.add_student_frame, text="Name:").grid(row=1, column=0)
-        tk.Entry(self.add_student_frame, textvariable=self.name).grid(row=1, column=1)
-        tk.Label(self.add_student_frame, text="Lastname:").grid(row=2, column=0)
-        tk.Entry(self.add_student_frame, textvariable=self.lastname).grid(row=2, column=1)
+        tk.Entry(self.add_student_frame, textvariable=self.student_name).grid(row=1, column=1)
+        tk.Label(self.add_student_frame, text="Last Name:").grid(row=2, column=0)
+        tk.Entry(self.add_student_frame, textvariable=self.student_lastname).grid(row=2, column=1)
         tk.Label(self.add_student_frame, text="Section:").grid(row=3, column=0)
-        tk.Entry(self.add_student_frame, textvariable=self.section).grid(row=3, column=1)
-        tk.Button(self.add_student_frame, text="Add", command=lambda: self.save_student(subject_name)).grid(row=4, column=0, columnspan=2)
-        tk.Button(self.add_student_frame, text="Back", command=lambda: self.create_subject_details_frame(subject_name)).grid(row=5, column=0, columnspan=2)
-        tk.Button(self.add_student_frame, text="Logout", command=self.logout).grid(row=6, column=0, columnspan=2)
+        tk.Entry(self.add_student_frame, textvariable=self.student_section).grid(row=3, column=1)
+        tk.Label(self.add_student_frame, text="Homework:").grid(row=4, column=0)
+        tk.Entry(self.add_student_frame, textvariable=self.homework).grid(row=4, column=1)
+        tk.Label(self.add_student_frame, text="Seatwork:").grid(row=5, column=0)
+        tk.Entry(self.add_student_frame, textvariable=self.seatwork).grid(row=5, column=1)
+        tk.Label(self.add_student_frame, text="Quizzes:").grid(row=6, column=0)
+        tk.Entry(self.add_student_frame, textvariable=self.quizzes).grid(row=6, column=1)
+        tk.Label(self.add_student_frame, text="Exams:").grid(row=7, column=0)
+        tk.Entry(self.add_student_frame, textvariable=self.exams).grid(row=7, column=1)
 
-    def edit_criteria(self, subject_name):
-        self.clear_frame()
-        self.edit_criteria_frame = tk.Frame(self.root)
-        self.edit_criteria_frame.pack()
-
-        criteria = self.criterias.get(subject_name, {})
-        self.criteria_entries = []
-
-        criteria_frame = tk.Frame(self.edit_criteria_frame)
-        criteria_frame.grid(row=0, column=0, columnspan=5)
-
-        for idx, (criterion, percentage) in enumerate(criteria.items()):
-            criteria_name = tk.StringVar(value=criterion)
-            percentage_value = tk.IntVar(value=percentage)
-            self.criteria_entries.append((criteria_name, percentage_value))
-
-            tk.Label(criteria_frame, text=f"Criteria {idx + 1}:").grid(row=idx, column=0)
-            tk.Entry(criteria_frame, textvariable=criteria_name).grid(row=idx, column=1)
-            tk.Label(criteria_frame, text="Percentage:").grid(row=idx, column=2)
-            tk.Entry(criteria_frame, textvariable=percentage_value).grid(row=idx, column=3)
-
-            remove_button_state = "normal" if len(criteria) > 1 else "disabled"
-            tk.Button(criteria_frame, text="Remove", command=lambda idx=idx: self.remove_criteria_entry(idx, criteria_frame), state=remove_button_state).grid(row=idx, column=4)
-
-        self.add_criteria_button = tk.Button(self.edit_criteria_frame, text="Add Criteria", command=lambda: self.add_criteria_entry(criteria_frame))
-        self.add_criteria_button.grid(row=len(criteria) + 1, column=0, columnspan=2)
-        self.save_button = tk.Button(self.edit_criteria_frame, text="Save", command=lambda: self.save_criteria(subject_name))
-        self.save_button.grid(row=len(criteria) + 2, column=0, columnspan=2)
-        self.back_button = tk.Button(self.edit_criteria_frame, text="Back", command=lambda: self.create_subject_details_frame(subject_name))
-        self.back_button.grid(row=len(criteria) + 3, column=0, columnspan=2)
-        self.logout_button = tk.Button(self.edit_criteria_frame, text="Logout", command=self.logout)
-        self.logout_button.grid(row=len(criteria) + 4, column=0, columnspan=2)
-
-    def save_subject(self):
-        subject_name = self.subject_name.get()
-        self.criterias[subject_name] = {}
-
-        for criteria_name, percentage in self.criteria_entries:
-            self.criterias[subject_name][criteria_name.get()] = percentage.get()
-
-        # Save the criteria to the database
-        for criteria_name, percentage in self.criterias[subject_name].items():
-            self.cursor.execute("INSERT OR REPLACE INTO criterias (subject, criteria, percentage) VALUES (?, ?, ?)",
-                                (subject_name, criteria_name, percentage))
-        self.conn.commit()
-
-        messagebox.showinfo("Success", "Subject and criteria saved successfully!")
-        self.create_dashboard()
+        tk.Button(self.add_student_frame, text="Add Student", command=lambda: self.save_student(subject_name)).grid(row=8, column=0, columnspan=2)
+        tk.Button(self.add_student_frame, text="Back", command=self.go_back).grid(row=9, column=0, columnspan=2)
 
     def save_student(self, subject_name):
         student_number = self.student_number.get()
-        name = self.name.get()
-        lastname = self.lastname.get()
-        section = self.section.get()
+        name = self.student_name.get()
+        lastname = self.student_lastname.get()
+        section = self.student_section.get()
+        homework = self.homework.get()
+        seatwork = self.seatwork.get()
+        quizzes = self.quizzes.get()
+        exams = self.exams.get()
 
-        self.students.setdefault(subject_name, []).append((student_number, name, lastname, section, subject_name, 0, 0, 0, 0))
-
-        # Save the student to the database
-        self.cursor.execute("INSERT OR REPLACE INTO students (student_number, name, lastname, section, subject, homework, seatwork, quizzes, exams) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                            (student_number, name, lastname, section, subject_name, 0, 0, 0, 0))
-        self.conn.commit()
-
-        messagebox.showinfo("Success", "Student added successfully!")
-        self.create_subject_details_frame(subject_name)
-
-    def save_criteria(self, subject_name):
-        self.criterias[subject_name] = {}
-        for criteria_name, percentage in self.criteria_entries:
-            self.criterias[subject_name][criteria_name.get()] = percentage.get()
-
-        # Save the criteria to the database
-        for criteria_name, percentage in self.criterias[subject_name].items():
-            self.cursor.execute("INSERT OR REPLACE INTO criterias (subject, criteria, percentage) VALUES (?, ?, ?)",
-                                (subject_name, criteria_name, percentage))
-        self.conn.commit()
-
-        messagebox.showinfo("Success", "Criteria updated successfully!")
+        self.db.execute_query(
+            "INSERT OR REPLACE INTO students (student_number, name, lastname, section, subject, homework, seatwork, quizzes, exams) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (student_number, name, lastname, section, subject_name, homework, seatwork, quizzes, exams),
+        )
+        messagebox.showinfo("Success", "Student added successfully")
         self.create_subject_details_frame(subject_name)
 
     def search_subject(self):
         subject_name = self.search_subject_name.get()
-        if subject_name in self.criterias:
+        if subject_name:
             self.create_subject_details_frame(subject_name)
         else:
-            messagebox.showerror("Error", "Subject not found.")
+            messagebox.showerror("Error", "Subject name cannot be empty")
 
     def login(self):
         username = self.username.get()
         password = self.password.get()
-
-        self.cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
-        if self.cursor.fetchone():
+        user = self.db.fetch_one("SELECT * FROM users WHERE username=? AND password=?", (username, password))
+        if user:
             self.create_dashboard()
         else:
-            messagebox.showerror("Error", "Invalid username or password.")
+            messagebox.showerror("Error", "Invalid username or password")
 
     def register(self):
         username = self.username.get()
         password = self.password.get()
-
-        try:
-            self.cursor.execute("INSERT INTO users (username, password) VALUES (?, ?, ?)", (username, password))
-            self.conn.commit()
-            messagebox.showinfo("Success", "User registered successfully!")
+        if username and password:
+            self.db.execute_query("INSERT OR REPLACE INTO users (username, password) VALUES (?, ?)", (username, password))
+            messagebox.showinfo("Success", "User registered successfully")
             self.create_login_frame()
-        except sqlite3.IntegrityError:
-            messagebox.showerror("Error", "Username already exists.")
+        else:
+            messagebox.showerror("Error", "Username and password cannot be empty")
 
     def logout(self):
         self.username.set("")
@@ -374,7 +375,10 @@ class GradingSystemApp:
         for widget in self.root.winfo_children():
             widget.destroy()
 
+    def go_back(self):
+        if self.previous_frame_function:
+            self.previous_frame_function()
+
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = GradingSystemApp(root)
-    root.mainloop()
+    app = StudentGradingSystem()
+    app.root.mainloop()
