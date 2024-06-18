@@ -15,7 +15,7 @@ class GroceryApp:
         self.bg_label = tk.Label(root, image=self.bg)
         self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-        self.log_in_text = tk.Label(root, text="LOG IN", font=("Orbitron", 80, "bold"), fg="white", bg="#0F0E3A")
+        self.log_in_text = tk.Label(root, text="LOG IN", font=("Orbitron", 85, "bold"), fg="white", bg="#0F0E3A")
         self.log_in_text.place(x=200, y=100)
 
         self.user_entry_var = tk.StringVar()
@@ -34,10 +34,10 @@ class GroceryApp:
         self.error_label = tk.Label(root, text="", font=("Arial", 14), fg="red", bg="#000029")
         self.error_label.pack()
 
-        self.sign_in_button = tk.Button(root, text="Sign In", font=("Roboto", 20), bg="#B2B2E4", width=10, borderwidth=0, command=self.open_new_window)
+        self.sign_in_button = tk.Button(root, text="Sign In", font=("Roboto", 20, "bold"), bg="#B2B2E4", width=10, borderwidth=0, command=self.open_new_window)
         self.sign_in_button.place(x=200, y=600)
 
-        self.sign_up_button = tk.Button(root, text="Sign Up", font=("Roboto", 20), bg="#B2B2E4", width=10, borderwidth=0, command=self.sign_up)
+        self.sign_up_button = tk.Button(root, text="Sign Up", font=("Roboto", 20, "bold"), bg="#B2B2E4", width=10, borderwidth=0, command=self.sign_up)
         self.sign_up_button.place(x=450, y=600)
 
     def sign_up(self):
