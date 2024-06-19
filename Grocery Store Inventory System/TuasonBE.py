@@ -53,8 +53,7 @@ class InventoryManagement(DatabaseManagement):
 
     def create_items_table(self):
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS ITEMS (
-                               id INTEGER PRIMARY KEY,
-                               barcode INTEGER,
+                               barcode INTEGER PRIMARY KEY,
                                brand_name TEXT,
                                item_type TEXT,
                                item_quantity INTEGER,
@@ -62,8 +61,9 @@ class InventoryManagement(DatabaseManagement):
         self.connection.commit()
 
     def insert_inventory(self):
-        sql_command = "INSERT INTO ITEMS (brand_name, barcode, item_price, item_type, item_quantity) VALUES (?, ?, ?, ?, ?)"
-        values = (self.brand_name, self.barcode, self.item_price, self.item_type, self.item_quantity)
+        self.create_items_table()
+        sql_command = "INSERT INTO ITEMS (barcode, brand_name, item_type, item_quantity, item_price) VALUES (?, ?, ?, ?, ?)"
+        values = (self.barcode, self.brand_name, self.item_type, self.item_quantity, self.item_price)
         #name barcode price type quantity
         self.cursor.execute(sql_command, values)
         self.connection.commit()
@@ -71,10 +71,16 @@ class InventoryManagement(DatabaseManagement):
     def delete_inventory(self, barcode):
         self.cursor.execute("DELETE FROM ITEMS WHERE barcode = ?", (barcode,))
         self.connection.commit()
+    
+    
 
 class OutWindow(DatabaseManagement):
     def __init__(self):
         super().__init__()
+    
+    def delete_all(self):
+        self.cursor.execute("DELETE FROM ITEMS")
+        self.connection.commit()
 
     def print_items(self):
         self.cursor.execute("SELECT * FROM ITEMS")

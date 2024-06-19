@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from TuasonBE import DatabaseManagement,Registration_System, LoginSystem, InventoryManagement
+from TuasonBE import *
 
 class MarketMate(DatabaseManagement):
     def __init__(self, root):
@@ -166,35 +166,35 @@ class MarketMate(DatabaseManagement):
         new_window_in_label = tk.Label(self.in_window, text="  I  N  ", font=("Times New Roman", 50, "bold"), width=20)
         new_window_in_label.pack(pady=30, side="top")
 
-        new_window_in_type = tk.Label(self.in_window, text="TYPE", font=("Times New Roman", 35))
-        new_window_in_type.pack(side="top", padx=5)
-
-        self.new_window_in_type_entry = tk.Entry(self.in_window, fg="Black", font=("Times New Roman", 30), width=15)
-        self.new_window_in_type_entry.pack(side="top", padx=5)
-
-        new_window_in_quantity = tk.Label(self.in_window, text="QUANTITY", font=("Times New Roman", 35))
-        new_window_in_quantity.pack(side="top")
-
-        self.new_window_in_quantity_entry = tk.Entry(self.in_window, fg="Black", font=("Times New Roman", 30), width=15)
-        self.new_window_in_quantity_entry.pack(side="top")
-
-        new_window_in_price = tk.Label(self.in_window, text="PRICE", font=("Times New Roman", 35))
-        new_window_in_price.pack(side="top")
-
-        self.new_window_in_price_entry = tk.Entry(self.in_window, fg="Black", font=("Times New Roman", 30), width=15)
-        self.new_window_in_price_entry.pack(side="top")
-
-        new_window_in_name = tk.Label(self.in_window, text="NAME", font=("Times New Roman", 35))
-        new_window_in_name.pack(side="top")
-
-        self.new_window_in_name_entry = tk.Entry(self.in_window, fg="Black", font=("Times New Roman", 30), width=15)
-        self.new_window_in_name_entry.pack(side="top")
-
         new_window_in_barcode = tk.Label(self.in_window, text="BARCODE", font=("Times New Roman", 35))
-        new_window_in_barcode.pack(side="top")
+        new_window_in_barcode.pack(side="top", padx=5)
 
         self.new_window_in_barcode_entry = tk.Entry(self.in_window, fg="Black", font=("Times New Roman", 30), width=15)
-        self.new_window_in_barcode_entry.pack(side="top")
+        self.new_window_in_barcode_entry.pack(side="top", padx=5)
+
+        new_window_in_brand_name = tk.Label(self.in_window, text="BRAND NAME", font=("Times New Roman", 35))
+        new_window_in_brand_name.pack(side="top")
+
+        self.new_window_in_brand_name_entry = tk.Entry(self.in_window, fg="Black", font=("Times New Roman", 30), width=15)
+        self.new_window_in_brand_name_entry.pack(side="top")
+
+        new_window_in_item_type = tk.Label(self.in_window, text="ITEM TYPE", font=("Times New Roman", 35))
+        new_window_in_item_type.pack(side="top")
+
+        self.new_window_in_item_type_entry = tk.Entry(self.in_window, fg="Black", font=("Times New Roman", 30), width=15)
+        self.new_window_in_item_type_entry.pack(side="top")
+
+        new_window_in_item_quantity = tk.Label(self.in_window, text="ITEM QUANTITY", font=("Times New Roman", 35))
+        new_window_in_item_quantity.pack(side="top")
+
+        self.new_window_in_item_quantity_entry = tk.Entry(self.in_window, fg="Black", font=("Times New Roman", 30), width=15)
+        self.new_window_in_item_quantity_entry.pack(side="top")
+
+        new_window_in_item_price = tk.Label(self.in_window, text="ITEM PRICE", font=("Times New Roman", 35))
+        new_window_in_item_price.pack(side="top")
+
+        self.new_window_in_item_price_entry = tk.Entry(self.in_window, fg="Black", font=("Times New Roman", 30), width=15)
+        self.new_window_in_item_price_entry.pack(side="top")
         
         new_window_in_done = tk.Button(self.in_window, text="DONE", font=("Times New Roman", 35), command=self.save_to_inventory)
         new_window_in_done.pack(side="left", expand=True)
@@ -204,7 +204,7 @@ class MarketMate(DatabaseManagement):
 
     def save_to_inventory(self):
 
-        self.inventory = InventoryManagement(self.new_window_in_name_entry.get(),self.new_window_in_barcode_entry.get(),self.new_window_in_price_entry.get(),self.new_window_in_type_entry.get(),self.new_window_in_quantity_entry.get())
+        self.inventory = InventoryManagement(self.new_window_in_barcode_entry.get(),self.new_window_in_brand_name_entry.get(),self.new_window_in_item_type_entry.get(),self.new_window_in_item_quantity_entry.get(),self.new_window_in_item_price_entry.get())
         self.inventory.insert_inventory()
         self.in_window.destroy()
 
@@ -314,12 +314,9 @@ class MarketMate(DatabaseManagement):
         ok_button = tk.Button(check_out_window, text="OK", font=("Arial", 20), command=lambda: self.clear_inventory(check_out_window))
         ok_button.pack(pady=10)
 
-    def clear_inventory(self, window):
-        self.inventory_items.clear()
-        for i in self.tree.get_children():
-            self.tree.delete(i)
-        for i in self.tree_out.get_children():
-            self.tree_out.delete(i)
+    def clear_inventory(self,window):
+        self.outWindow = OutWindow()
+        self.outWindow.delete_all()
         window.destroy()
 
 if __name__ == "__main__":
