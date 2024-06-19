@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from TuasonBE import *
-
+from tkinter import PhotoImage
 class MarketMate(DatabaseManagement):
     def __init__(self, root):
         super().__init__()
@@ -11,6 +11,13 @@ class MarketMate(DatabaseManagement):
         self.root.attributes('-fullscreen', True)
         self.root.resizable(True, True)
 
+        self.bg_image_path = "main.png"
+        self.bg = PhotoImage(file=self.bg_image_path)
+
+        self.bg_label = tk.Label(root, image=self.bg)
+        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        
+        
         # Background color instead of image
         self.root.configure(bg="#000029")
 
@@ -79,6 +86,12 @@ class MarketMate(DatabaseManagement):
         sign_up_window.attributes('-fullscreen', True)
         sign_up_window.resizable(True, True)
 
+        bg_image_path = "main.png"
+        sign_up_window.bg = PhotoImage(file=bg_image_path)
+        bg_label = tk.Label(sign_up_window, image=sign_up_window.bg)
+        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        
+        
         # Background color instead of image
         sign_up_window.configure(bg="#ffffff")
 
@@ -127,25 +140,30 @@ class MarketMate(DatabaseManagement):
         open_window.attributes('-fullscreen', True)
         open_window.resizable(True, True)
 
+        bg_image_path = "main.png"
+        open_window.bg = PhotoImage(file=bg_image_path)
+        bg_label = tk.Label(open_window, image=open_window.bg)
+        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        
         # Background color instead of image
         open_window.configure(bg="#ffffff")
         
         new_window_back = tk.Button(open_window, text="<- BACK", font=("Roman", 20, "bold"), bg="#00CED1", fg="White", command=open_window.destroy, width=12)
         new_window_back.pack(anchor="w")
 
-        new_window_in = tk.Button(open_window, text="   I N   ", font=("Times New Roman", 40, "bold"), bg="#00CED1", fg="White", command=self.window_in, width=12, height=2)
+        new_window_in = tk.Button(open_window, text="   I N   ", font=("Times New Roman", 40, "bold"), bg="midnight blue", fg="White", command=self.window_in, width=12, height=2, borderwidth= 0)
         new_window_in.pack(pady=50)
         
-        new_window_sales = tk.Button(open_window, text="WEEKLY\n SALES", font=("Times New Roman", 30, "bold"), bg="#00CED1", fg="White", width=12, height=5, command=self.weekly_sales)
+        new_window_sales = tk.Button(open_window, text="WEEKLY\n SALES", font=("Times New Roman", 30, "bold"), bg="midnight blue", fg="White", width=12, height=5, borderwidth= 0,command=self.weekly_sales)
         new_window_sales.pack(side="left", pady=70, expand=True)
         
-        new_window_sales = tk.Button(open_window, text="MONTHLY\n SALES", font=("Times New Roman", 30, "bold"), bg="#00CED1", fg="White", width=12, height=5, command=self.monthly_sales)
+        new_window_sales = tk.Button(open_window, text="MONTHLY\n SALES", font=("Times New Roman", 30, "bold"), bg="midnight blue", fg="White", width=12, height=5, borderwidth= 0,command=self.monthly_sales)
         new_window_sales.pack(side="right", pady=70, expand=True)
 
-        new_window_inventory = tk.Button(open_window, text="INVENTORY", font=("Times New Roman", 40, "bold"), bg="#00CED1", fg="White", width=12, height=2, command=self.window_inventory)
+        new_window_inventory = tk.Button(open_window, text="INVENTORY", font=("Times New Roman", 40, "bold"), bg="midnight blue", fg="White", width=12, height=2, borderwidth= 0,command=self.window_inventory)
         new_window_inventory.pack(pady=50)
 
-        new_window_out = tk.Button(open_window, text="   OUT   ", font=("Times New Roman", 40, "bold"), bg="#00CED1", fg="White", width=12, height=2, command=self.window_out)
+        new_window_out = tk.Button(open_window, text="   OUT   ", font=("Times New Roman", 40, "bold"), bg="midnight blue", fg="White", width=12, height=2, borderwidth= 0,command=self.window_out)
         new_window_out.pack(pady=50)
 
     def weekly_sales(self):
@@ -160,6 +178,12 @@ class MarketMate(DatabaseManagement):
         self.in_window.attributes('-fullscreen', True)
         self.in_window.resizable(True, True)
 
+        self.bg_image_path = "main.png"
+        self.in_window.bg = PhotoImage(file=self.bg_image_path)
+        self.bg_label = tk.Label(self.in_window, image=self.in_window.bg)
+        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        
+        
         # Background color instead of image
         self.in_window.configure(bg="#ffffff")
 
@@ -215,10 +239,18 @@ class MarketMate(DatabaseManagement):
         self.inventory_window.configure(bg="#ffffff")
         self.inventory_window.resizable(True, True)
 
+        
+        
+        
         # Inventory UI
         main_frame = tk.Frame(self.inventory_window)
         main_frame.pack(fill=tk.BOTH, expand=True)
 
+        bg_image_path = "main.png"
+        main_frame.bg = PhotoImage(file=bg_image_path)
+        bg_label = tk.Label(main_frame, image=main_frame.bg)
+        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        
         # Title
         title_label = tk.Label(main_frame, text="INVENTORY", bg='#add8e6', font=("Helvetica", 16, "bold"))
         title_label.pack(pady=10)
