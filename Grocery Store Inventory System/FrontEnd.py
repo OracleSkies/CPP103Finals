@@ -5,6 +5,7 @@ from TuasonBE import DatabaseManagement,Registration_System, LoginSystem, Invent
 
 class MarketMate(DatabaseManagement):
     def __init__(self, root):
+        super().__init__()
         self.root = root
         self.root.title("Grocery Store Inventory System")
         self.root.attributes('-fullscreen', True)
