@@ -22,14 +22,14 @@ class GroceryApp:
         self.password_entry_var = tk.StringVar()
 
         self.username_label = tk.Label(root, text="Username", font=("Orbitron", 20, 'bold'), fg="white", bg="#171658")
-        self.username_label.place(x=250, y=310)
-        self.username_entry = tk.Entry(root, textvariable=self.user_entry_var, font=("Arial", 14), width=25, borderwidth=5)
-        self.username_entry.place(x=250, y=350)
+        self.username_label.place(x=200, y=310)
+        self.username_entry = tk.Entry(root, textvariable=self.user_entry_var, font=("Arial", 14), width=30, borderwidth=5)
+        self.username_entry.place(x=200, y=350)
 
         self.password_label = tk.Label(root, text="Password", font=("Orbitron", 20, 'bold'), fg="white", bg="#201F7D")
-        self.password_label.place(x=250, y=460)
-        self.password_entry = tk.Entry(root, textvariable=self.password_entry_var, font=("Arial", 14), width=25, borderwidth=5, show="*")
-        self.password_entry.place(x=250, y=500)
+        self.password_label.place(x=200, y=460)
+        self.password_entry = tk.Entry(root, textvariable=self.password_entry_var, font=("Arial", 14), width=30, borderwidth=5, show="*")
+        self.password_entry.place(x=200, y=500)
 
         self.error_label = tk.Label(root, text="", font=("Arial", 14), fg="red", bg="#000029")
         self.error_label.pack()
@@ -44,12 +44,36 @@ class GroceryApp:
         sign_up_window = tk.Toplevel(self.root)
         sign_up_window.title('SIGN UP')
         sign_up_window.geometry('1000x800')
+        bg_image_path = "LogIn.png"
+        sign_up_window.bg = PhotoImage(file=self.bg_image_path)
+        bg_label = tk.Label(sign_up_window, image=sign_up_window.bg)
+        bg_label.place(x=0, y=0, relwidth=1, relheight=1)      
         sign_up_window.resizable(True, True)
 
-        bg_image_path = "main.png"
-        sign_up_window.bg = PhotoImage(file=bg_image_path)
-        bg_label = tk.Label(sign_up_window, image=sign_up_window.bg)
-        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        sign_up_window_text = tk.Label(root, text="SIGN UP", font=("Orbitron", 85, "bold"), fg="white", bg="#0F0E3A")
+        sign_up_window_text.place(x=200, y=100)
+
+        sign_up_user_entry_var = tk.StringVar()
+        sign_up_password_entry_var = tk.StringVar()
+
+        username_label = tk.Label(root, text="Username", font=("Orbitron", 20, 'bold'), fg="white", bg="#171658")
+        username_label.place(x=200, y=310)
+        username_entry = tk.Entry(root, textvariable=self.user_entry_var, font=("Arial", 14), width=30, borderwidth=5)
+        username_entry.place(x=200, y=350)
+
+        password_label = tk.Label(root, text="Password", font=("Orbitron", 20, 'bold'), fg="white", bg="#201F7D")
+        password_label.place(x=200, y=460)
+        password_entry = tk.Entry(root, textvariable=self.password_entry_var, font=("Arial", 14), width=30, borderwidth=5, show="*")
+        password_entry.place(x=200, y=500)
+
+        error_label = tk.Label(root, text="", font=("Arial", 14), fg="red", bg="#000029")
+        error_label.pack()
+
+        sign_in_button = tk.Button(root, text="Sign In", font=("Roboto", 20, "bold"), bg="#B2B2E4", width=10, borderwidth=0, command=self.open_new_window)
+        sign_in_button.place(x=200, y=600)
+
+        sign_up_button = tk.Button(root, text="Sign Up", font=("Roboto", 20, "bold"), bg="#B2B2E4", width=10, borderwidth=0, command=self.sign_up)
+        sign_up_button.place(x=450, y=600)
 
     def open_new_window(self):
         username = self.user_entry_var.get()
