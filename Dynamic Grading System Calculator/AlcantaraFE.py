@@ -7,31 +7,31 @@ from DonascoBE import Registration_System, Login_System
 
 class LoginAndRegisterWindow:
     def __init__(self, root):
-        self.root = root
-        self.root.title("Grocery Store Inventory System")
-        self.root.geometry("1000x800")
-        self.root.resizable(False, False)
+        self.LoginWindow = root
+        self.LoginWindow.title("Grocery Store Inventory System")
+        self.LoginWindow.geometry("1000x800")
+        self.LoginWindow.resizable(False, False)
 
         self.bg_image_path = "LOGIN GrADEBOOK.png"
         self.bg = PhotoImage(file=self.bg_image_path)
 
-        self.bg_label = tk.Label(root, image=self.bg)
+        self.bg_label = tk.Label(self.LoginWindow, image=self.bg)
         self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-        self.entry_username = tk.Entry(root, font=('Times New Roman', 20))
+        self.entry_username = tk.Entry(self.LoginWindow, font=('Times New Roman', 20))
         self.entry_username.place(relx=.20, rely=.53, relheight=.05, relwidth=.60)
 
-        self.entry_password = tk.Entry(root, font=('Times New Roman', 20), show="*")
+        self.entry_password = tk.Entry(self.LoginWindow, font=('Times New Roman', 20), show="*")
         self.entry_password.place(relx=.20, rely=.67, relheight=.05, relwidth=.60)
 
-        self.button_logIN = tk.Button(root, text="Log IN", font=('Telegraf', 20, "bold"), bg="#042C40", fg="white", borderwidth=0, command=self.login)
+        self.button_logIN = tk.Button(self.LoginWindow, text="Log IN", font=('Telegraf', 20, "bold"), bg="#042C40", fg="white", borderwidth=0, command=self.login)
         self.button_logIN.place(relx=.20, rely=.77, relheight=.07, relwidth=.19)
 
-        self.button_SignUP = tk.Button(root, text="Sign UP", font=('Telegraf', 20, "bold"), bg="#042C40", fg="white", command=self.signUP, borderwidth=0)
+        self.button_SignUP = tk.Button(self.LoginWindow, text="Sign UP", font=('Telegraf', 20, "bold"), bg="#042C40", fg="white", command=self.signUP, borderwidth=0)
         self.button_SignUP.place(relx=.61, rely=.77, relheight=.07, relwidth=.19)
 
     def signUP(self):
-        self.signUP_window = tk.Toplevel(self.root)
+        self.signUP_window = tk.Toplevel(self.LoginWindow)
         self.signUP_window.geometry('1560x1000')
         self.signUP_window.resizable(False, False)
 
@@ -58,14 +58,17 @@ class LoginAndRegisterWindow:
 
     def register(self):
         # Add your registration logic here
-        pass
+        self.registerSystem = Registration_System(self.username_entry.get(),self.password_entry.get(), self.confirm_password_entry.get(),self.signUP_window)
+        self.registerSystem.register_Account()
 
     def login(self):
         # Add your login logic here
+        self.loginSystem = Login_System(self.entry_username.get(),self.entry_password.get(),self.LoginWindow)
+        self.loginSystem.login_Account()
         self.homeDashboard()
 
     def homeDashboard(self):
-        self.home_window = tk.Toplevel(self.root)
+        self.home_window = tk.Tk()
         self.home_window.title("Dashboard")
         self.home_window.geometry('1560x1000')
         self.home_window.resizable(False, False)
@@ -94,8 +97,8 @@ class LoginAndRegisterWindow:
         self.home_window.mainloop()
 
     def gradeDashboard(self):
-        self.grade_window = tk.Toplevel(self.root)
-        self.grade_window.title("Dashboard")
+        self.grade_window = root
+        self.grade_window.title("Create Grading System")
         self.grade_window.geometry('1560x1000')
         self.grade_window.resizable(False, False)
 
