@@ -1,11 +1,48 @@
 import sqlite3
+from tkinter import messagebox
 
 class DatabaseManagement:
     def __init__(self):
         self.connection = sqlite3.connect("ITEM_DATABASE.db")
         self.cursor = self.connection.cursor()
+    
+class LoginSystem(DatabaseManagement):
+    def __init__(self, login_username, login_password):
+        super().__init__()
+        self.login_username = login_username
+        self.login_password = login_password
+    
+    def login_Account(self):
+        sqlCommand = "SELECT * FROM users WHERE username = ? AND password = ?"
+        account = (self.login_username, self.login_password)
+        self.cursor.execute(sqlCommand, account)
+        result = self.cursor.fetchone()
+        if result:
+            messagebox.showinfo("User log in","Account successfully logged in")
+            return True
+        else:
+            messagebox.showinfo("User log in","Account not found")
+            return False
 
-class DataManagement(DatabaseManagement):
+class Registration_System(DatabaseManagement):
+    def __init__(self, reg_Username, reg_Password):
+        super().__init__()
+        self.reg_Username = reg_Username
+        self.reg_Password = reg_Password
+
+    def register_Account(self):
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS users(\
+                            id INTEGER PRIMARY KEY,\
+                            username TEXT,\
+                            password TEXT NOT NULL)")
+        sqlCommand = "INSERT INTO users (username, password) VALUES (?, ?)"
+        values = (self.reg_Username, self.reg_Password)
+        self.cursor.execute(sqlCommand,values)
+        self.connection.commit()
+        messagebox.showinfo("Account Registration", "Account Successfully Registered!")
+        
+        
+class InventoryManagement(DatabaseManagement):
     def __init__(self, barcode, brand_name, item_type, item_quantity, item_price):
         super().__init__()
         self.barcode = barcode
@@ -25,8 +62,9 @@ class DataManagement(DatabaseManagement):
         self.connection.commit()
 
     def insert_inventory(self):
-        sql_command = "INSERT INTO ITEMS (barcode, brand_name, item_type, item_quantity, item_price) VALUES (?, ?, ?, ?, ?)"
-        values = (self.barcode, self.brand_name, self.item_type, self.item_quantity, self.item_price)
+        sql_command = "INSERT INTO ITEMS (brand_name, barcode, item_price, item_type, item_quantity) VALUES (?, ?, ?, ?, ?)"
+        values = (self.brand_name, self.barcode, self.item_price, self.item_type, self.item_quantity)
+        #name barcode price type quantity
         self.cursor.execute(sql_command, values)
         self.connection.commit()
 

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk, messagebox
 import sqlite3
-from TuasonBE import DatabaseManagement,DataManagement
+from TuasonBE import DatabaseManagement,InventoryManagement
 
 
 class GroceryApp(DatabaseManagement):
@@ -224,7 +224,7 @@ class GroceryApp(DatabaseManagement):
         self.connection.commit()
 
     def confirm_inventory_in(self):
-        dataManagement = DataManagement(self.new_window_in_barcode_entry.get(), self.new_window_in_name_entry.get(), self.new_window_in_type_entry.get(),self.new_window_in_quantity_entry.get(), self.new_window_in_price_entry.get())
+        dataManagement = InventoryManagement(self.new_window_in_barcode_entry.get(), self.new_window_in_name_entry.get(), self.new_window_in_type_entry.get(),self.new_window_in_quantity_entry.get(), self.new_window_in_price_entry.get())
         dataManagement.insert_inventory()
         messagebox.showinfo("Inventory In", "Item added to invetory")
         self.open_window_in.destroy()
