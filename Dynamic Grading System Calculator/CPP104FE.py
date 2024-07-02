@@ -194,6 +194,9 @@ class SortingApp:
         label = tk.Label(sorted_array1_window, text="Sorted Array 1", font=('Arial', 22))
         label.pack(pady=20)
 
+        label = tk.Label(sorted_array1_window, text="Array", font=('Arial', 22))
+        label.pack(pady=30)
+
         buttonframe = tk.Frame(sorted_array1_window)
         buttonframe.pack(fill='y')
 
@@ -210,6 +213,9 @@ class SortingApp:
         label = tk.Label(sorted_array2_window, text="Sorted Array 2", font=('Arial', 22))
         label.pack(pady=20)
 
+        label = tk.Label(sorted_array2_window, text="Array", font=('Arial', 22))
+        label.pack(pady=30)
+
         buttonframe = tk.Frame(sorted_array2_window)
         buttonframe.pack(fill='y')
 
@@ -223,8 +229,11 @@ class SortingApp:
         sorted_array3_window.title("Array 3")
         sorted_array3_window.geometry("500x400")
 
-        label = tk.Label(sorted_array3_window, text="Array 1: [3, 1, 2]", font=('Arial', 22))
+        label = tk.Label(sorted_array3_window, text="Sorted Array 3", font=('Arial', 22))
         label.pack(pady=20)
+
+        label = tk.Label(sorted_array3_window, text="Array", font=('Arial', 22))
+        label.pack(pady=30)
 
         buttonframe = tk.Frame(sorted_array3_window)
         buttonframe.pack(fill='y')
@@ -239,8 +248,11 @@ class SortingApp:
         sorted_array4_window.title("Array 4")
         sorted_array4_window.geometry("700x400")
 
-        label = tk.Label(sorted_array4_window, text="Array 1: [3, 1, 2]", font=('Arial', 22))
+        label = tk.Label(sorted_array4_window, text="Sorted Array 4", font=('Arial', 22))
         label.pack(pady=20)
+
+        label = tk.Label(sorted_array4_window, text="Array", font=('Arial', 22))
+        label.pack(pady=30)
 
         buttonframe = tk.Frame(sorted_array4_window)
         buttonframe.pack(fill='y')
@@ -255,8 +267,11 @@ class SortingApp:
         sorted_array5_window.title("Array 5")
         sorted_array5_window.geometry("950x400")
 
-        label = tk.Label(sorted_array5_window, text="Array 1: [3, 1, 2]", font=('Arial', 22))
+        label = tk.Label(sorted_array5_window, text="Sorted Array 5", font=('Arial', 22))
         label.pack(pady=20)
+
+        label = tk.Label(sorted_array5_window, text="Array", font=('Arial', 22))
+        label.pack(pady=30)
 
         buttonframe = tk.Frame(sorted_array5_window)
         buttonframe.pack(fill='y')
