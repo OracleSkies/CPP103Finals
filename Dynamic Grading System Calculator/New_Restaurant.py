@@ -1,7 +1,33 @@
 import tkinter as tk
 from tkinter import ttk
 
-class Order_System:
+class OrderSystem:
+    def __init__(self):
+        self.orders = []
+    
+    def isEmpty(self): # Check if the stack is empty
+        return len(self.orders) == 0
+    
+    def push(self,item):#Add an item to the top of the stack
+        self.orders.append(item)
+
+    def pop(self):
+        if self.isEmpty():
+            raise IndexError("Pop from an empty stack")
+        return self.orders.pop()
+    
+    def peek(self):
+        if self.isEmpty():
+            raise IndexError("Peek from an empty stack")
+        return self.orders[-1]
+    
+    def size(self):
+        return len(self.orders)
+    
+    def __str__(self):
+        return str(self.orders)
+    
+class OrderGUI:
     def __init__(self, root):
         #main window where users will choose option for order system
         self.root = root
@@ -9,6 +35,8 @@ class Order_System:
         self.root.title("Restaurant Order Management System")
         self.root.resizable(0, 0)
         self.root.configure(bg='midnight blue')
+        self.order = OrderSystem()
+        
 
         label = tk.Label(root, text="Restaurant Order Management System", font=('Arial', 25), bg='midnight blue', fg='white')
         label.pack(padx=20, pady=20)
@@ -39,63 +67,69 @@ class Order_System:
 
     #new pop-up window for adding order
     def open_add_order_window(self):
-        add_order_window = tk.Toplevel(self.root)
-        add_order_window.title("Add Order")
-        add_order_window.geometry("400x300")
-        add_order_window.configure(bg='midnight blue')
+        self.add_order_window = tk.Toplevel(self.root)
+        self.add_order_window.title("Add Order")
+        self.add_order_window.geometry("400x300")
+        self.add_order_window.configure(bg='midnight blue')
 
-        label = tk.Label(add_order_window, text="Add Order", font=('Arial', 22), bg='midnight blue', fg='white')
-        label.pack(pady=20)
+        self.label = tk.Label(self.add_order_window, text="Add Order", font=('Arial', 22), bg='midnight blue', fg='white')
+        self.label.pack(pady=20)
 
-        buttonframe = tk.LabelFrame(add_order_window, bg='royalblue3')
-        buttonframe.pack(fill='x', padx=20, pady=20)
+        self.buttonframe = tk.LabelFrame(self.add_order_window, bg='royalblue3')
+        self.buttonframe.pack(fill='x', padx=20, pady=20)
 
-        buttonframe.columnconfigure(0, weight=1)
-        buttonframe.columnconfigure(1, weight=1)
+        self.buttonframe.columnconfigure(0, weight=1)
+        self.buttonframe.columnconfigure(1, weight=1)
 
         #user input for adding order
-        entry_label = tk.Label(buttonframe, text="Input Order:", font=('Arial', 15), bg='royalblue3', fg='white')
-        entry_label.grid(row=0, column=0, columnspan=2, pady=5)
+        self.orderLabel = tk.Label(self.buttonframe, text="Input Order:", font=('Arial', 15), bg='royalblue3', fg='white')
+        self.orderLabel.grid(row=0, column=0, columnspan=2, pady=5)
 
-        entry = tk.Entry(buttonframe, font=('Arial', 15), bg='white', fg='black')
-        entry.grid(row=1, column=0, columnspan=2, pady=5, padx=10, sticky=tk.W+tk.E)
+        self.orderEntry = tk.Entry(self.buttonframe, font=('Arial', 15), bg='white', fg='black')
+        self.orderEntry.grid(row=1, column=0, columnspan=2, pady=5, padx=10, sticky=tk.W+tk.E)
 
-        button1 = tk.Button(buttonframe, text="Confirm", font=('Arial', 20), bg='royalblue3', fg='white')
-        button1.grid(row=2, column=0, sticky=tk.W+tk.E, padx=15, pady=5)
+        self.serveButton = tk.Button(self.buttonframe, text="Confirm", font=('Arial', 20), bg='royalblue3', fg='white', command = self.confirm_add_order)
+        self.serveButton.grid(row=2, column=0, sticky=tk.W+tk.E, padx=15, pady=5)
 
-        button2 = tk.Button(buttonframe, text="Back", font=('Arial', 20), bg='royalblue3', fg='white', command=add_order_window.destroy)
-        button2.grid(row=2, column=1, sticky=tk.W+tk.E, padx=15, pady=5)
+        self.backButton = tk.Button(self.buttonframe, text="Back", font=('Arial', 20), bg='royalblue3', fg='white', command=self.add_order_window.destroy)
+        self.backButton.grid(row=2, column=1, sticky=tk.W+tk.E, padx=15, pady=5)
 
     def confirm_add_order(self):
-        pass
+        orderToPush = self.orderEntry.get()
+        self.order.push(orderToPush)
 
     #new pop-up window for serving order
     def open_serve_order_window(self):
-        serve_order_window = tk.Toplevel(self.root)
-        serve_order_window.title("Serve Order")
-        serve_order_window.geometry("400x300")
-        serve_order_window.configure(bg='midnight blue')
+        self.serve_order_window = tk.Toplevel(self.root)
+        self.serve_order_window.title("Serve Order")
+        self.serve_order_window.geometry("400x300")
+        self.serve_order_window.configure(bg='midnight blue')
 
-        label = tk.Label(serve_order_window, text="Serve Order", font=('Arial', 22), bg='midnight blue', fg='white')
-        label.pack(pady=10)
+        serveLabel = tk.Label(self.serve_order_window, text="Serve Current Order", font=('Arial', 22), bg='midnight blue', fg='white')
+        serveLabel.pack(pady=10)
 
         #label where the last input will appear
-        label1 = tk.Label(serve_order_window, text="Last input will appear", font=('Arial', 22), bg='midnight blue', fg='white')
+        #peek muna
+        self.currentOrder = self.order.peek()
+
+        label1 = tk.Label(self.serve_order_window, text= f"The current order is {self.currentOrder}", font=('Arial', 22), bg='midnight blue', fg='white')
         label1.pack(pady=30)
 
-        buttonframe = tk.LabelFrame(serve_order_window, bg='royalblue3')
-        buttonframe.pack(fill='x', padx=20, pady=20)
+        self.buttonframe = tk.LabelFrame(self.serve_order_window, bg='royalblue3')
+        self.buttonframe.pack(fill='x', padx=20, pady=20)
 
-        buttonframe.columnconfigure(0, weight=1)
-        buttonframe.columnconfigure(1, weight=1)
+        self.buttonframe.columnconfigure(0, weight=1)
+        self.buttonframe.columnconfigure(1, weight=1)
 
-        button1 = tk.Button(buttonframe, text="Confirm", font=('Arial', 20), bg='royalblue3', fg='white')
-        button1.grid(row=2, column=0, sticky=tk.W+tk.E, padx=15, pady=5)
+        serveButton = tk.Button(self.buttonframe, text="Serve", font=('Arial', 20), bg='royalblue3', fg='white', command = self.confirm_serve_order)
+        serveButton.grid(row=2, column=0, sticky=tk.W+tk.E, padx=15, pady=5)
 
-        button2 = tk.Button(buttonframe, text="Back", font=('Arial', 20), bg='royalblue3', fg='white', command=serve_order_window.destroy)
-        button2.grid(row=2, column=1, sticky=tk.W+tk.E, padx=15, pady=5)
+        backButton = tk.Button(self.buttonframe, text="Back", font=('Arial', 20), bg='royalblue3', fg='white', command=self.serve_order_window.destroy)
+        backButton.grid(row=2, column=1, sticky=tk.W+tk.E, padx=15, pady=5)
 
     def confirm_serve_order(self):
+        self.order.pop() 
+        #==== Need Error Handling ======
         pass
 
     #new pop-up window for viewing current order
@@ -106,12 +140,14 @@ class Order_System:
         open_current_order_window.configure(bg='midnight blue')
 
         open_current_order_window.columnconfigure(0, weight=1)
+        
 
+        self.currentOrder = self.order.peek()
         #display the current order
         label1 = tk.Label(open_current_order_window, text="View Current Order", font=('Arial', 25), bg='midnight blue', fg='white')
         label1.grid(row=0, column=0, pady=10, sticky=tk.N)
 
-        label2 = tk.Label(open_current_order_window, text="Dito nakalagay yung current order", font=('Arial', 15), bg='midnight blue', fg='white')
+        label2 = tk.Label(open_current_order_window, text=f"The current order is {self.currentOrder}", font=('Arial', 15), bg='midnight blue', fg='white')
         label2.grid(row=1, column=0, pady=10, sticky=tk.N)
 
         button = tk.Button(open_current_order_window, text="Back", font=('Arial', 20), bg='royalblue3', fg='white', command=open_current_order_window.destroy)
@@ -168,5 +204,5 @@ class Order_System:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = Order_System(root)
+    app = OrderGUI(root)
     root.mainloop()
